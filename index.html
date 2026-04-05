@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nahwärme aus Harsefeld — HHB Agrarenergie</title>
+  <meta name="description" content="Klimafreundlich heizen mit Biogas-Nahwärme aus Harsefeld. Kein eigener Heizungskeller, keine Wartung. Jetzt Interesse bekunden.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nahwärme aus Harsefeld — HHB Agrarenergie">
+  <meta property="og:description" content="Klimafreundlich heizen mit Biogas-Nahwärme. Transparent, fair und zukunftssicher. Seit 2011.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hhb-agrarenergie.de/waermenetz">
+
+  <!-- Fonts: Source Sans Pro (HHB brand font) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== HHB DESIGN TOKENS ===== */
+    :root {
+      /* HHB Brand Colors */
+      --navy: #00374D;
+      --navy-dark: #002A3B;
+      --navy-light: #004D6B;
+      --green: #95C11F;
+      --green-dark: #7DA31A;
+      --green-light: #A8D42F;
+      --steel-blue: #6D8FA7;
+      --steel-blue-light: #8BABC0;
+      --light-blue-bg: #E5F2FD;
+      --light-green-bg: #E4ECC6;
+      --white: #FFFFFF;
+      --off-white: #F7F8FA;
+      --light-gray: #F0F2F5;
+      --mid-gray: #D1D5DB;
+      --text-dark: #1A2A35;
+      --text-muted: #5A6B78;
+      --text-light: #8A9BAA;
+
+      /* Typography */
+      --font-body: 'Source Sans 3', 'Source Sans Pro', 'Segoe UI', sans-serif;
+
+      /* Spacing */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      --space-24: 6rem;
+
+      /* Radius */
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0, 55, 77, 0.08);
+      --shadow-md: 0 4px 16px rgba(0, 55, 77, 0.1);
+      --shadow-lg: 0 12px 40px rgba(0, 55, 77, 0.12);
+
+      /* Transitions */
+      --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+      background: var(--white);
+    }
+
+    img, svg { display: block; max-width: 100%; height: auto; }
+    a { color: var(--navy); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--green); }
+
+    h1, h2, h3, h4 { line-height: 1.2; text-wrap: balance; }
+    p { max-width: 72ch; text-wrap: pretty; }
+
+    /* ===== LAYOUT UTILITIES ===== */
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    .section {
+      padding: clamp(var(--space-12), 8vw, var(--space-24)) 0;
+    }
+
+    /* ===== HEADER / NAV ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      box-shadow: 0 2px 12px rgba(0, 55, 77, 0.2);
+    }
+
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .header-logo {
+      height: 40px;
+      width: auto;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .header-nav a {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: color var(--transition);
+    }
+
+    .header-nav a:hover {
+      color: var(--green);
+    }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--green);
+      color: var(--navy) !important;
+      padding: var(--space-2) var(--space-5);
+      border-radius: var(--radius-xl);
+      font-weight: 700;
+      font-size: 0.875rem;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .header-cta:hover {
+      background: var(--green-light);
+      color: var(--navy) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Mobile nav */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-2);
+    }
+
+    .mobile-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 6px 0;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-toggle { display: block; }
+      .header-nav {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--navy);
+        flex-direction: column;
+        padding: var(--space-6);
+        gap: var(--space-4);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      }
+      .header-nav.active { display: flex; }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 60%, #001E2B 100%);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      padding: clamp(var(--space-16), 10vw, var(--space-24)) 0 clamp(var(--space-12), 8vw, var(--space-20));
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 80%;
+      height: 200%;
+      background: radial-gradient(ellipse, rgba(149, 193, 31, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(to top, rgba(0, 55, 77, 0.3), transparent);
+      pointer-events: none;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .hero-content { max-width: 540px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: rgba(149, 193, 31, 0.15);
+      border: 1px solid rgba(149, 193, 31, 0.3);
+      color: var(--green);
+      padding: var(--space-1) var(--space-4);
+      border-radius: var(--radius-xl);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-6);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 1.4rem + 2.5vw, 3.25rem);
+      font-weight: 900;
+      margin-bottom: var(--space-6);
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span {
+      color: var(--green);
+    }
+
+    .hero-sub {
+      font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.65;
+      margin-bottom: var(--space-8);
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-xl);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: var(--navy);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-light);
+      color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(149, 193, 31, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-card .stat-value {
+      display: block;
+      font-size: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1.1;
+      margin-bottom: var(--space-1);
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.8125rem;
+      color: rgba(255, 255, 255, 0.65);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 768px) {
+      .hero .container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-content { max-width: 100%; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===== VORTEILE ===== */
+    .vorteile {
+      background: var(--off-white);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: clamp(var(--space-8), 5vw, var(--space-12));
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: var(--space-3);
+    }
+
+    .section-title {
+      font-size: clamp(1.625rem, 1.3rem + 1.5vw, 2.5rem);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.01em;
+    }
+
+    .section-sub {
+      font-size: 1.0625rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .vorteile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .vorteil-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .vorteil-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      border-color: rgba(149, 193, 31, 0.2);
+    }
+
+    .vorteil-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-5);
+      font-size: 1.5rem;
+    }
+
+    .vorteil-icon.green { background: rgba(149, 193, 31, 0.12); color: var(--green-dark); }
+    .vorteil-icon.blue { background: rgba(109, 143, 167, 0.12); color: var(--steel-blue); }
+    .vorteil-icon.navy { background: rgba(0, 55, 77, 0.08); color: var(--navy); }
+
+    .vorteil-card h3 {
+      font-size: 1.1875rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-3);
+    }
+
+    .vorteil-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .vorteile-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== SO FUNKTIONIERT'S ===== */
+    .schritte {
+      background: var(--white);
+    }
+
+    .schritte-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+      position: relative;
+    }
+
+    .schritte-grid::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(16.66% + 20px);
+      right: calc(16.66% + 20px);
+      height: 2px;
+      background: linear-gradient(to right, var(--green), var(--steel-blue), var(--navy));
+      border-radius: 1px;
+    }
+
+    .schritt {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .schritt-number {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-5);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--white);
+      background: var(--navy);
+      border: 4px solid var(--off-white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .schritt:nth-child(2) .schritt-number { background: var(--steel-blue); }
+    .schritt:nth-child(3) .schritt-number { background: var(--green-dark); }
+
+    .schritt h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-3);
+    }
+
+    .schritt p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .schritte-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .schritte-grid::before { display: none; }
+    }
+
+    /* ===== FAKTEN-BANNER ===== */
+    .fakten-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+      color: var(--white);
+      padding: var(--space-12) 0;
+    }
+
+    .fakten-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      text-align: center;
+    }
+
+    .fakt .fakt-value {
+      display: block;
+      font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: var(--space-2);
+    }
+
+    .fakt .fakt-label {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .fakten-grid { grid-template-columns: 1fr 1fr; gap: var(--space-8); }
+    }
+
+    /* ===== GEG-SECTION ===== */
+    .geg-section {
+      background: var(--light-green-bg);
+    }
+
+    .geg-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .geg-text h2 {
+      font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: var(--space-5);
+    }
+
+    .geg-text p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: var(--space-5);
+    }
+
+    .geg-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .geg-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+    }
+
+    .geg-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300374D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 14px;
+    }
+
+    .geg-info-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--green);
+    }
+
+    .geg-info-card h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-4);
+    }
+
+    .geg-info-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .geg-info-card .highlight {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    @media (max-width: 768px) {
+      .geg-content { grid-template-columns: 1fr; }
+    }
+
+    /* ===== FAQ ===== */
+    .faq {
+      background: var(--off-white);
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-3);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      border: 1px solid var(--light-gray);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--space-5) var(--space-6);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: left;
+      transition: background var(--transition);
+    }
+
+    .faq-question:hover {
+      background: var(--off-white);
+    }
+
+    .faq-chevron {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      color: var(--steel-blue);
+    }
+
+    .faq-item.active .faq-chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 var(--space-6) var(--space-5);
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ===== FORMULAR-SECTION ===== */
+    .formular-section {
+      background: var(--white);
+    }
+
+    .formular-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+
+    .form-info h2 {
+      font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: var(--space-5);
+    }
+
+    .form-info p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: var(--space-6);
+    }
+
+    .form-info-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .form-info-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+    }
+
+    .form-info-list li svg {
+      flex-shrink: 0;
+      color: var(--green);
+    }
+
+    .contact-box {
+      margin-top: var(--space-8);
+      padding: var(--space-5);
+      background: var(--light-blue-bg);
+      border-radius: var(--radius-lg);
+    }
+
+    .contact-box h4 {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-2);
+    }
+
+    .contact-box p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .contact-box a {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Form */
+    .form-card {
+      background: var(--off-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--light-gray);
+    }
+
+    .form-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-6);
+    }
+
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-group label .required {
+      color: #D14040;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--mid-gray);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+      background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(149, 193, 31, 0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    @media (max-width: 520px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: var(--green);
+    }
+
+    .checkbox-group label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .checkbox-group label a {
+      color: var(--navy);
+      text-decoration: underline;
+    }
+
+    .form-submit {
+      width: 100%;
+      margin-top: var(--space-5);
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: var(--space-8);
+    }
+
+    .form-success.visible {
+      display: block;
+    }
+
+    .form-success svg {
+      margin: 0 auto var(--space-4);
+      color: var(--green);
+    }
+
+    .form-success h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-3);
+    }
+
+    .form-success p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .formular-wrapper { grid-template-columns: 1fr; }
+    }
+
+    /* ===== NEWSLETTER ===== */
+    .newsletter-section {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+      color: var(--white);
+      padding: var(--space-12) 0;
+    }
+
+    .newsletter-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .newsletter-inner h2 {
+      font-size: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+      font-weight: 900;
+      margin-bottom: var(--space-3);
+    }
+
+    .newsletter-inner p {
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.75);
+      margin: 0 auto var(--space-6);
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: var(--space-3);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      transition: all var(--transition);
+    }
+
+    .newsletter-form input[type="email"]::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .newsletter-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--green);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .newsletter-form button {
+      white-space: nowrap;
+    }
+
+    .newsletter-success {
+      display: none;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-top: var(--space-4);
+    }
+
+    .newsletter-success.visible {
+      display: block;
+    }
+
+    .newsletter-privacy {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: var(--space-3);
+    }
+
+    @media (max-width: 520px) {
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.7);
+      padding: var(--space-12) 0 var(--space-6);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    .footer-brand img {
+      height: 36px;
+      margin-bottom: var(--space-4);
+    }
+
+    .footer-brand p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .footer h4 {
+      color: var(--white);
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-4);
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: var(--space-2);
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.875rem;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--green);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: var(--space-6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      font-size: 0.8125rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+
+    /* ===== SCROLL ANIMATION ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== LOADING STATE FOR BUTTONS ===== */
+    .btn.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .btn.loading::after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-left: var(--space-2);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <a href="#top" aria-label="HHB Agrarenergie — Startseite">
+        <img src="assets/hhb-agrarenergie-logo-weiss.svg" alt="HHB Agrarenergie Logo" class="header-logo">
+      </a>
+      <button class="mobile-toggle" aria-label="Menü öffnen" onclick="this.nextElementSibling.classList.toggle('active')">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="header-nav">
+        <a href="#vorteile">Vorteile</a>
+        <a href="#so-funktionierts">Ablauf</a>
+        <a href="#geg">Wärmeplanung</a>
+        <a href="#faq">FAQ</a>
+        <a href="#formular" class="header-cta">Interesse bekunden</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Wärmenetz Harsefeld
+        </div>
+        <h1>Nahwärme aus Harsefeld — <span>für Ihr Zuhause</span></h1>
+        <p class="hero-sub">Klimafreundlich heizen mit Biogas-Wärme. Ohne eigene Heizung, ohne Wartung. Transparent, fair und zukunftssicher — direkt aus Ihrer Region.</p>
+        <div class="hero-actions">
+          <a href="#formular" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+            Jetzt Interesse bekunden
+          </a>
+          <a href="#so-funktionierts" class="btn btn-secondary">Mehr erfahren</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-value">0 g</span>
+            <span class="stat-label">CO₂ pro kWh</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">14+</span>
+            <span class="stat-label">Jahre Betrieb</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">Regional</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">24/7</span>
+            <span class="stat-label">Versorgung</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VORTEILE -->
+  <section class="section vorteile" id="vorteile">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Ihre Vorteile</span>
+        <h2 class="section-title">Warum Nahwärme aus Biogas?</h2>
+        <p class="section-sub">Unser Wärmenetz versorgt Sie zuverlässig mit klimafreundlicher Wärme — ohne dass Sie sich um Ihre Heizung kümmern müssen.</p>
+      </div>
+      <div class="vorteile-grid">
+        <div class="vorteil-card reveal">
+          <div class="vorteil-icon green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12l3 3 5-5"/></svg>
+          </div>
+          <h3>Klimafreundlich</h3>
+          <p>100 % Biogas-Wärme, CO₂-neutral. Sie leisten einen aktiven Beitrag zum Klimaschutz — direkt aus Harsefeld.</p>
+        </div>
+        <div class="vorteil-card reveal">
+          <div class="vorteil-icon blue">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          </div>
+          <h3>Komfortabel</h3>
+          <p>Kein Heizungskeller, keine Wartung, keine Brennstoffbestellung. Die Wärme kommt direkt ins Haus.</p>
+        </div>
+        <div class="vorteil-card reveal">
+          <div class="vorteil-icon navy">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg>
+          </div>
+          <h3>Fair & transparent</h3>
+          <p>Kein Börsenrisiko, kein Import. Stabile, regionale Preise — fair und nachvollziehbar abgerechnet.</p>
+        </div>
+        <div class="vorteil-card reveal">
+          <div class="vorteil-icon green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>Wartungsfrei</h3>
+          <p>Wir kümmern uns um Technik und Instandhaltung. Sie genießen einfach die Wärme.</p>
+        </div>
+        <div class="vorteil-card reveal">
+          <div class="vorteil-icon blue">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <h3>Versorgungssicher</h3>
+          <p>Seit 2011 zuverlässig im Betrieb. Keine Abhängigkeit von Gas-Importen oder Weltmarktpreisen.</p>
+        </div>
+        <div class="vorteil-card reveal">
+          <div class="vorteil-icon navy">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Regional</h3>
+          <p>Wärme aus Harsefeld für Harsefeld. Stärkt die lokale Wertschöpfung und Ihr Gemeinwesen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SO FUNKTIONIERT'S -->
+  <section class="section schritte" id="so-funktionierts">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">So funktioniert's</span>
+        <h2 class="section-title">In drei Schritten zur Nahwärme</h2>
+        <p class="section-sub">Der Anschluss an unser Wärmenetz ist unkompliziert — wir begleiten Sie von der Interessenbekundung bis zur ersten warmen Stunde.</p>
+      </div>
+      <div class="schritte-grid">
+        <div class="schritt reveal">
+          <div class="schritt-number">1</div>
+          <h3>Interesse bekunden</h3>
+          <p>Füllen Sie unser kurzes Formular aus. Wir melden uns zeitnah bei Ihnen.</p>
+        </div>
+        <div class="schritt reveal">
+          <div class="schritt-number">2</div>
+          <h3>Beratung & Planung</h3>
+          <p>Wir prüfen die Anschlussmöglichkeit und besprechen mit Ihnen alle Details und Konditionen.</p>
+        </div>
+        <div class="schritt reveal">
+          <div class="schritt-number">3</div>
+          <h3>Anschluss & Wärme</h3>
+          <p>Nach der Installation genießen Sie klimafreundliche Wärme — ohne eigene Heizungsanlage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAKTEN-BANNER -->
+  <section class="fakten-banner">
+    <div class="container">
+      <div class="fakten-grid reveal">
+        <div class="fakt">
+          <span class="fakt-value">1.060 kW</span>
+          <span class="fakt-label">Installierte Leistung</span>
+        </div>
+        <div class="fakt">
+          <span class="fakt-value">seit 2011</span>
+          <span class="fakt-label">Im Betrieb</span>
+        </div>
+        <div class="fakt">
+          <span class="fakt-value">3 BHKWs</span>
+          <span class="fakt-label">Blockheizkraftwerke</span>
+        </div>
+        <div class="fakt">
+          <span class="fakt-value">1.350 kW</span>
+          <span class="fakt-label">Geplanter Ausbau</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GEG / WÄRMEPLANUNG -->
+  <section class="section geg-section" id="geg">
+    <div class="container">
+      <div class="geg-content">
+        <div class="geg-text reveal">
+          <span class="section-label">Wärmeplanung & GEG</span>
+          <h2>Zukunftssicher heizen — mit dem Gebäudeenergiegesetz</h2>
+          <p>Das Gebäudeenergiegesetz (GEG) verpflichtet beim Heizungstausch ab 2024 zum Einsatz erneuerbarer Energien. Mit dem Anschluss an unser Nahwärmenetz erfüllen Sie diese Anforderung automatisch.</p>
+          <ul class="geg-list">
+            <li>GEG-Anforderung wird automatisch erfüllt</li>
+            <li>Keine Investition in neue Heizungsanlage nötig</li>
+            <li>Förderfähig im Rahmen der BEG (Bundesförderung für effiziente Gebäude)</li>
+            <li>Wertsteigerung Ihrer Immobilie durch nachhaltige Wärmeversorgung</li>
+            <li>Unabhängig von steigenden Gaspreisen</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <div class="geg-info-card">
+            <h3>Kommunale Wärmeplanung Harsefeld</h3>
+            <p>Die Gemeinde Harsefeld setzt auf Nahwärme als Baustein der kommunalen Wärmeplanung. Unser Netz versorgt bereits öffentliche Einrichtungen — und wächst weiter.</p>
+            <p>Derzeit versorgt:</p>
+            <ul class="geg-list" style="margin-top: 0.5rem;">
+              <li>Schulzentrum Harsefeld</li>
+              <li>Alten- und Pflegeheim</li>
+              <li>Jugendzentrum</li>
+              <li>Weitere öffentliche Gebäude</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Häufige Fragen</span>
+        <h2 class="section-title">Ihre Fragen — unsere Antworten</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Was kostet der Anschluss an das Wärmenetz?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Die Anschlusskosten hängen von der Entfernung zur bestehenden Leitung und dem Wärmebedarf Ihres Gebäudes ab. Wir erstellen Ihnen ein individuelles Angebot — unverbindlich und kostenlos. In der Regel liegen die einmaligen Anschlusskosten deutlich unter den Kosten einer neuen Heizungsanlage.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Wie funktioniert Nahwärme technisch?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">In unserer Biogasanlage erzeugen wir gleichzeitig Strom und Wärme. Die Wärme wird über isolierte Rohrleitungen als heißes Wasser direkt in Ihr Haus geleitet. Dort wird sie über eine kompakte Übergabestation (etwa so groß wie ein kleiner Schrank) in Ihr Heizsystem eingespeist.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Kann ich mein bestehendes Heizsystem weiterverwenden?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Ja, in den meisten Fällen können Heizkörper und Fußbodenheizung weitergenutzt werden. Lediglich der alte Heizkessel wird durch die Übergabestation ersetzt. Das spart Platz und Wartungskosten.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Wie lang ist die Vertragslaufzeit?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Die übliche Vertragslaufzeit beträgt 10 Jahre. Das gibt Ihnen und uns Planungssicherheit. Die Konditionen werden transparent und nachvollziehbar gestaltet.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Ist mein Haus für einen Anschluss geeignet?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Grundsätzlich kann jedes Gebäude in der Nähe des Wärmenetzes angeschlossen werden. Die Voraussetzung ist, dass die Wärmeleitung in Ihrer Straße vorhanden oder geplant ist. Bekunden Sie einfach Ihr Interesse — wir prüfen die Machbarkeit kostenlos.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Gibt es Fördermittel für den Anschluss?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Ja, der Anschluss an ein Wärmenetz ist im Rahmen der Bundesförderung für effiziente Gebäude (BEG) förderfähig. Je nach Konstellation können Sie bis zu 70 % der Kosten erstattet bekommen. Wir beraten Sie gerne zu den aktuellen Fördermöglichkeiten.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERESSENBEKUNDUNG -->
+  <section class="section formular-section" id="formular">
+    <div class="container">
+      <div class="formular-wrapper">
+        <div class="form-info reveal">
+          <span class="section-label">Interesse bekunden</span>
+          <h2>Melden Sie sich unverbindlich an</h2>
+          <p>Sie interessieren sich für einen Anschluss an das Nahwärmenetz? Füllen Sie das Formular aus — wir melden uns innerhalb weniger Werktage bei Ihnen mit allen Informationen.</p>
+          <ul class="form-info-list">
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Unverbindlich und kostenlos
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Individuelle Beratung
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Kostenlose Machbarkeitsprüfung
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              Antwort innerhalb von 5 Werktagen
+            </li>
+          </ul>
+          <div class="contact-box">
+            <h4>Ihre Ansprechpartnerin</h4>
+            <p>Birgit Lindstedt<br>
+            Tel.: <a href="tel:+494164859-9308">04164 / 859 93 08</a><br>
+            E-Mail: <a href="mailto:info@hhb-agrarenergie.de">info@hhb-agrarenergie.de</a></p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="form-card">
+            <h3>Interessenbekundung Wärmenetz</h3>
+            <form id="interest-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="vorname">Vorname <span class="required">*</span></label>
+                  <input type="text" id="vorname" name="vorname" required autocomplete="given-name">
+                </div>
+                <div class="form-group">
+                  <label for="nachname">Nachname <span class="required">*</span></label>
+                  <input type="text" id="nachname" name="nachname" required autocomplete="family-name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">E-Mail-Adresse <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="telefon">Telefon</label>
+                <input type="tel" id="telefon" name="telefon" autocomplete="tel">
+              </div>
+              <div class="form-group">
+                <label for="strasse">Straße & Hausnr. <span class="required">*</span></label>
+                <input type="text" id="strasse" name="strasse" required autocomplete="street-address">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="plz">PLZ <span class="required">*</span></label>
+                  <input type="text" id="plz" name="plz" required autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5">
+                </div>
+                <div class="form-group">
+                  <label for="ort">Ort <span class="required">*</span></label>
+                  <input type="text" id="ort" name="ort" required autocomplete="address-level2">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="gebaeudetyp">Gebäudetyp</label>
+                <select id="gebaeudetyp" name="gebaeudetyp">
+                  <option value="">Bitte wählen...</option>
+                  <option value="Einfamilienhaus">Einfamilienhaus</option>
+                  <option value="Zweifamilienhaus">Zweifamilienhaus</option>
+                  <option value="Mehrfamilienhaus">Mehrfamilienhaus</option>
+                  <option value="Gewerbe">Gewerbeobjekt</option>
+                  <option value="Sonstiges">Sonstiges</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="nachricht">Nachricht (optional)</label>
+                <textarea id="nachricht" name="nachricht" placeholder="Haben Sie besondere Fragen oder Anmerkungen?"></textarea>
+              </div>
+              <div class="form-group">
+                <div class="checkbox-group">
+                  <input type="checkbox" id="newsletter-opt" name="newsletter">
+                  <label for="newsletter-opt">Ja, ich möchte den HHB-Newsletter mit aktuellen Informationen zum Wärmenetz erhalten.</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="checkbox-group">
+                  <input type="checkbox" id="datenschutz" name="datenschutz" required>
+                  <label for="datenschutz">Ich habe die <a href="https://hhb-agrarenergie.de/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. <span class="required">*</span></label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary form-submit">Interesse bekunden</button>
+            </form>
+            <div class="form-success" id="form-success">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Vielen Dank für Ihr Interesse!</h3>
+              <p>Wir haben Ihre Anfrage erhalten und melden uns innerhalb von 5 Werktagen bei Ihnen.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section" id="newsletter">
+    <div class="container">
+      <div class="newsletter-inner reveal">
+        <h2>Bleiben Sie informiert</h2>
+        <p>Erhalten Sie aktuelle Neuigkeiten zum Wärmenetz-Ausbau, zu Tarifen und zu Fördermöglichkeiten — direkt in Ihr Postfach.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" placeholder="Ihre E-Mail-Adresse" required autocomplete="email" aria-label="E-Mail-Adresse für Newsletter">
+          <button type="submit" class="btn btn-primary">Anmelden</button>
+        </form>
+        <div class="newsletter-success" id="newsletter-success">Vielen Dank — Sie sind angemeldet!</div>
+        <p class="newsletter-privacy">Mit der Anmeldung akzeptieren Sie unsere <a href="https://hhb-agrarenergie.de/datenschutz" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.65); text-decoration: underline;">Datenschutzerklärung</a>. Abmeldung jederzeit möglich.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/hhb-agrarenergie-logo-weiss.svg" alt="HHB Agrarenergie Logo">
+          <p>HHB Agrarenergie GmbH &amp; Co. KG<br>Strom und Wärme natürlich aus Harsefeld. Seit 2011 Ihr regionaler Energieversorger.</p>
+        </div>
+        <div>
+          <h4>Kontakt</h4>
+          <ul class="footer-links">
+            <li><a href="tel:+49416485993-08">04164 / 859 93 08</a></li>
+            <li><a href="mailto:info@hhb-agrarenergie.de">info@hhb-agrarenergie.de</a></li>
+            <li>Postfach 1240<br>21695 Harsefeld</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Rechtliches</h4>
+          <ul class="footer-links">
+            <li><a href="https://hhb-agrarenergie.de/impressum" target="_blank" rel="noopener">Impressum</a></li>
+            <li><a href="https://hhb-agrarenergie.de/datenschutz" target="_blank" rel="noopener">Datenschutz</a></li>
+            <li><a href="https://hhb-agrarenergie.de" target="_blank" rel="noopener">hhb-agrarenergie.de</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 HHB Agrarenergie GmbH &amp; Co. KG</span>
+        <span>Geschäftsführer: Oliver Holtermann</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ===== SCROLL REVEAL ===== */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ===== FAQ ACCORDION ===== */
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('active');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Open clicked if not already active
+        if (!isActive) {
+          item.classList.add('active');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    /* ===== INTEREST FORM SUBMISSION ===== */
+    document.getElementById('interest-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.form-submit');
+      btn.classList.add('loading');
+      btn.textContent = 'Wird gesendet...';
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+      data.newsletter = formData.get('newsletter') === 'on';
+      data.timestamp = new Date().toISOString();
+
+      try {
+        // Send to Google Sheets via Apps Script
+        // PLACEHOLDER: Replace with actual Apps Script Web App URL
+        const SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+
+        if (SHEETS_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL') {
+          await fetch(SHEETS_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        }
+
+        // Show success
+        this.style.display = 'none';
+        document.getElementById('form-success').classList.add('visible');
+      } catch (err) {
+        // Still show success (no-cors doesn't return readable response)
+        this.style.display = 'none';
+        document.getElementById('form-success').classList.add('visible');
+      }
+    });
+
+    /* ===== NEWSLETTER FORM ===== */
+    document.getElementById('newsletter-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button');
+      const input = this.querySelector('input[type="email"]');
+      btn.classList.add('loading');
+      btn.textContent = 'Wird angemeldet...';
+
+      try {
+        // PLACEHOLDER: Replace with actual Brevo form endpoint or Apps Script
+        const NEWSLETTER_URL = 'YOUR_NEWSLETTER_ENDPOINT';
+
+        if (NEWSLETTER_URL !== 'YOUR_NEWSLETTER_ENDPOINT') {
+          await fetch(NEWSLETTER_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: input.value })
+          });
+        }
+
+        this.style.display = 'none';
+        document.getElementById('newsletter-success').classList.add('visible');
+      } catch (err) {
+        this.style.display = 'none';
+        document.getElementById('newsletter-success').classList.add('visible');
+      }
+    });
+
+    /* ===== SMOOTH SCROLL FOR NAV + CLOSE MOBILE MENU ===== */
+    document.querySelectorAll('.header-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('.header-nav').classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
