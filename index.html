@@ -13,6 +13,15 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hhb-agrarenergie.de/waermenetz">
 
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
   <!-- Fonts: Source Sans Pro (HHB brand font) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1747,6 +1756,16 @@
         // Show success
         this.style.display = 'none';
         document.getElementById('form-success').classList.add('visible');
+
+        // GA4: Interessenbekundung abgeschickt
+        if (typeof gtag === 'function') {
+          gtag('event', 'interest_form_submit', {
+            event_category: 'waermenetz',
+            event_label: data.gebaeudetyp || 'nicht angegeben',
+            plz: data.plz,
+            newsletter_opt_in: data.newsletter
+          });
+        }
       } catch (err) {
         // Still show success (no-cors doesn't return readable response)
         this.style.display = 'none';
@@ -1777,6 +1796,14 @@
 
         this.style.display = 'none';
         document.getElementById('newsletter-success').classList.add('visible');
+
+        // GA4: Newsletter-Anmeldung
+        if (typeof gtag === 'function') {
+          gtag('event', 'newsletter_signup', {
+            event_category: 'waermenetz',
+            event_label: 'waermenetz_newsletter'
+          });
+        }
       } catch (err) {
         this.style.display = 'none';
         document.getElementById('newsletter-success').classList.add('visible');
