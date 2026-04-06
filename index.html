@@ -1748,7 +1748,6 @@
           await fetch(SHEETS_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
         }
@@ -1789,7 +1788,6 @@
           await fetch(NEWSLETTER_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: input.value, type: 'newsletter' })
           });
         }

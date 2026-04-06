@@ -22,7 +22,12 @@ const BREVO_LIST_ID = 0;  // Optional: Brevo-Listen-ID für Wärmenetz-Newslette
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    var raw = e.postData ? e.postData.contents : '{}';
+    var data;
+    try { data = JSON.parse(raw); } catch(err) {
+      // Fallback: URL-Parameter
+      data = e.parameter || {};
+    }
     
     // Route: Newsletter-only oder vollständige Interessenbekundung
     if (data.type === 'newsletter') {
