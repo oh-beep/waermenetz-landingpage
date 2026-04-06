@@ -1,0 +1,29 @@
+name: Deploy Wärmenetz-Landingpage
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - '*.md'
+      - 'setup.sh'
+      - 'security-fix.sh'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Hetzner
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 178.104.66.73
+          username: deploy
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/waermenetz.hhb-agrarenergie.de
+            git -C /tmp/waermenetz-deploy pull 2>/dev/null || git clone https://github.com/oh-beep/waermenetz-landingpage.git /tmp/waermenetz-deploy
+            cp /tmp/waermenetz-deploy/index.html /var/www/waermenetz.hhb-agrarenergie.de/
+            cp /tmp/waermenetz-deploy/datenschutz.html /var/www/waermenetz.hhb-agrarenergie.de/
+            cp /tmp/waermenetz-deploy/assets/* /var/www/waermenetz.hhb-agrarenergie.de/assets/
+            echo "Deployed at $(date)"
