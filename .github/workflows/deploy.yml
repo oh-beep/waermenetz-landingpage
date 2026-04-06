@@ -1,0 +1,32 @@
+name: Deploy Waermenetz Landingpage
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy Files
+        run: |
+          rsync -avz --delete \
+            --exclude '.git' --exclude '.github' \
+            --exclude '.gitignore' --exclude 'README.md' \
+            --exclude '*.sh' --exclude '.env' \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/waermenetz.hhb-agrarenergie.de/
+
+      - name: Verify
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+            'sudo nginx -t && sudo systemctl reload nginx && echo "Deploy OK"'
