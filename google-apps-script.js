@@ -150,7 +150,7 @@ Automatisch generiert von der Wärmenetz-Landingpage
 Alle Interessenten: https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}
     `.trim();
     
-    MailApp.sendEmail('info@hhb-agrarenergie.de', subject, body);
+    MailApp.sendEmail('oh@hofholtermann.de', subject, body);
   } catch (e) {
     // E-Mail-Fehler nicht als Gesamtfehler werten
     console.log('E-Mail-Benachrichtigung fehlgeschlagen: ' + e.toString());
