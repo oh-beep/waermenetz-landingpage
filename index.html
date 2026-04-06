@@ -1742,7 +1742,7 @@
       try {
         // Send to Google Sheets via Apps Script
         // PLACEHOLDER: Replace with actual Apps Script Web App URL
-        const SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+        const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxkvdJkGDmczeTUPdduyWxIg6piRbZ0KPMEZZ0YSrj_O9U-auVJsfLuTCUB2n0Ws5Qx/exec';
 
         if (SHEETS_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL') {
           await fetch(SHEETS_URL, {
@@ -1783,14 +1783,14 @@
 
       try {
         // PLACEHOLDER: Replace with actual Brevo form endpoint or Apps Script
-        const NEWSLETTER_URL = 'YOUR_NEWSLETTER_ENDPOINT';
+        const NEWSLETTER_URL = 'https://script.google.com/macros/s/AKfycbxkvdJkGDmczeTUPdduyWxIg6piRbZ0KPMEZZ0YSrj_O9U-auVJsfLuTCUB2n0Ws5Qx/exec';
 
         if (NEWSLETTER_URL !== 'YOUR_NEWSLETTER_ENDPOINT') {
           await fetch(NEWSLETTER_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: input.value })
+            body: JSON.stringify({ email: input.value, type: 'newsletter' })
           });
         }
 
