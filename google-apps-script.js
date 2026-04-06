@@ -1,22 +1,38 @@
 /**
- * Google Apps Script — Web App Endpoint für Wärmenetz-Interessenbekundungen
+ * Google Apps Script — Zentraler Formular-Endpoint für alle Hof Holtermann Marken
+ * 
+ * Verarbeitet Formulare von:
+ * - Wärmenetz-Landingpage (waermenetz.hhb-agrarenergie.de)
+ * - Hofladen (hofladen-harsefeld.de)
+ * - Hof Holtermann / PremiumEi (premiumei.de / hofholtermann.de)
  * 
  * EINRICHTUNG:
- * 1. Öffne https://script.google.com → Neues Projekt
- * 2. Kopiere diesen Code in die Code.gs Datei
- * 3. Ersetze SPREADSHEET_ID mit der echten ID
- * 4. Optional: Ersetze BREVO_API_KEY mit deinem Brevo-API-Schlüssel
- * 5. Veröffentlichen → Als Web-App bereitstellen
- *    - Ausführen als: ICH (dein Account)
- *    - Zugriff: Jeder (auch anonym)
- * 6. Kopiere die Web-App-URL in die Landingpage (index.html)
+ * 1. Code in Code.gs einfügen
+ * 2. Zeile 17: Brevo API Key eintragen
+ * 3. Bereitstellen → Bereitstellungen verwalten → Neue Version → Bereitstellen
  */
 
 // ===== KONFIGURATION =====
 const SPREADSHEET_ID = '1-BeYoeylLWFJCeSEZdnHkcrOa5MABCL8HCheUK8HRlY';
-const SHEET_NAME = 'Interessenten';
-const BREVO_API_KEY = ''; // Optional: Brevo API Key für Newsletter-Anmeldung
-const BREVO_LIST_ID = 0;  // Optional: Brevo-Listen-ID für Wärmenetz-Newsletter
+const BREVO_API_KEY = '';  // <-- Brevo API Key hier eintragen (xkeysib-...)
+const NOTIFICATION_EMAIL = 'oh@hofholtermann.de';
+
+// Brevo-Listen pro Marke
+const BREVO_LISTS = {
+  'waermenetz': 3,
+  'hofladen': 4,
+  'hof-holtermann': 5,
+  'premiumei': 6
+};
+
+// Sheet-Tabs pro Marke (werden automatisch erstellt)
+const SHEET_NAMES = {
+  'waermenetz': 'Interessenten',
+  'hofladen': 'Hofladen Kontakte',
+  'hof-holtermann': 'Hof Holtermann Kontakte',
+  'premiumei': 'PremiumEi Kontakte',
+  'newsletter': 'Newsletter'
+};
 
 // ===== WEB APP ENDPOINTS =====
 
@@ -25,15 +41,12 @@ function doPost(e) {
     var raw = e.postData ? e.postData.contents : '{}';
     var data;
     try { data = JSON.parse(raw); } catch(err) {
-      // Fallback: URL-Parameter
       data = e.parameter || {};
     }
-    
-    // Route: Newsletter-only oder vollständige Interessenbekundung
     if (data.type === 'newsletter') {
       return handleNewsletter(data);
     } else {
-      return handleInterestForm(data);
+      return handleContactForm(data);
     }
   } catch (error) {
     return ContentService
@@ -44,38 +57,33 @@ function doPost(e) {
 
 function doGet(e) {
   return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok', message: 'Wärmenetz API aktiv' }))
+    .createTextOutput(JSON.stringify({ status: 'ok', message: 'Hof Holtermann API aktiv', marken: Object.keys(BREVO_LISTS) }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ===== INTERESSENBEKUNDUNG =====
+// ===== KONTAKTFORMULAR =====
 
-function handleInterestForm(data) {
-  // In Google Sheet schreiben
-  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
-  
+function handleContactForm(data) {
+  var marke = data.marke || 'waermenetz';
+  var sheetName = SHEET_NAMES[marke] || 'Sonstige';
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName(sheetName);
+  if (!sheet) {
+    sheet = ss.insertSheet(sheetName);
+    sheet.appendRow(['Timestamp', 'Vorname', 'Nachname', 'E-Mail', 'Telefon',
+                     'Strasse', 'PLZ', 'Ort', 'Typ', 'Nachricht', 'Newsletter', 'Marke']);
+  }
   sheet.appendRow([
     data.timestamp || new Date().toISOString(),
-    data.vorname || '',
-    data.nachname || '',
-    data.email || '',
-    data.telefon || '',
-    data.strasse || '',
-    data.plz || '',
-    data.ort || '',
-    data.gebaeudetyp || '',
-    data.nachricht || '',
-    data.newsletter ? 'Ja' : 'Nein'
+    data.vorname || '', data.nachname || '', data.email || '',
+    data.telefon || '', data.strasse || '', data.plz || '', data.ort || '',
+    data.gebaeudetyp || data.typ || '', data.nachricht || '',
+    data.newsletter ? 'Ja' : 'Nein', marke
   ]);
-  
-  // Falls Newsletter gewünscht und Brevo konfiguriert
-  if (data.newsletter && BREVO_API_KEY && BREVO_LIST_ID) {
-    addToBrevo(data.email, data.vorname, data.nachname);
+  if (data.newsletter && BREVO_API_KEY) {
+    addToBrevo(data.email, data.vorname, data.nachname, BREVO_LISTS[marke] || 5);
   }
-  
-  // Benachrichtigungs-E-Mail an HHB
-  sendNotification(data);
-  
+  sendNotification(data, marke);
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
@@ -84,80 +92,52 @@ function handleInterestForm(data) {
 // ===== NEWSLETTER =====
 
 function handleNewsletter(data) {
-  if (BREVO_API_KEY && BREVO_LIST_ID) {
-    addToBrevo(data.email, '', '');
+  var marke = data.marke || 'waermenetz';
+  if (BREVO_API_KEY) {
+    addToBrevo(data.email, data.vorname || '', data.nachname || '', BREVO_LISTS[marke] || 5);
   }
-  
-  // Auch im Sheet notieren (optional, in separatem Tab)
-  try {
-    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    let nlSheet = ss.getSheetByName('Newsletter');
-    if (!nlSheet) {
-      nlSheet = ss.insertSheet('Newsletter');
-      nlSheet.appendRow(['Timestamp', 'E-Mail']);
-    }
-    nlSheet.appendRow([new Date().toISOString(), data.email]);
-  } catch (e) {
-    // Ignorieren, wenn es nicht klappt
+  var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var nlSheet = ss.getSheetByName('Newsletter');
+  if (!nlSheet) {
+    nlSheet = ss.insertSheet('Newsletter');
+    nlSheet.appendRow(['Timestamp', 'E-Mail', 'Marke']);
   }
-  
+  nlSheet.appendRow([new Date().toISOString(), data.email, marke]);
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ===== BREVO INTEGRATION =====
+// ===== BREVO =====
 
-function addToBrevo(email, firstName, lastName) {
+function addToBrevo(email, firstName, lastName, listId) {
   if (!BREVO_API_KEY) return;
-  
-  const payload = {
-    email: email,
-    attributes: {
-      VORNAME: firstName,
-      NACHNAME: lastName
-    },
-    listIds: [BREVO_LIST_ID],
-    updateEnabled: true
-  };
-  
   UrlFetchApp.fetch('https://api.brevo.com/v3/contacts', {
     method: 'POST',
-    headers: {
-      'api-key': BREVO_API_KEY,
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    payload: JSON.stringify(payload),
+    headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    payload: JSON.stringify({ email: email, attributes: { VORNAME: firstName, NACHNAME: lastName }, listIds: [listId], updateEnabled: true }),
     muteHttpExceptions: true
   });
 }
 
-// ===== E-MAIL-BENACHRICHTIGUNG =====
+// ===== BENACHRICHTIGUNG =====
 
-function sendNotification(data) {
+function sendNotification(data, marke) {
   try {
-    const subject = `Neue Wärmenetz-Interessenbekundung: ${data.vorname} ${data.nachname}`;
-    const body = `
-Neue Interessenbekundung über das Wärmenetz-Formular:
-
-Name: ${data.vorname} ${data.nachname}
-E-Mail: ${data.email}
-Telefon: ${data.telefon || '-'}
-Adresse: ${data.strasse}, ${data.plz} ${data.ort}
-Gebäudetyp: ${data.gebaeudetyp || '-'}
-Nachricht: ${data.nachricht || '-'}
-Newsletter: ${data.newsletter ? 'Ja' : 'Nein'}
-Zeitpunkt: ${data.timestamp}
-
----
-Automatisch generiert von der Wärmenetz-Landingpage
-Alle Interessenten: https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}
-    `.trim();
-    
-    MailApp.sendEmail('oh@hofholtermann.de', subject, body);
+    var namen = { 'waermenetz': 'Waermenetz', 'hofladen': 'Hofladen', 'hof-holtermann': 'Hof Holtermann', 'premiumei': 'PremiumEi' };
+    var m = namen[marke] || marke;
+    var subject = 'Neue Anfrage ' + m + ': ' + (data.vorname||'') + ' ' + (data.nachname||'');
+    var body = 'Neue Kontaktanfrage ueber ' + m + ':\n\n' +
+      'Name: ' + (data.vorname||'') + ' ' + (data.nachname||'') + '\n' +
+      'E-Mail: ' + (data.email||'') + '\n' +
+      'Telefon: ' + (data.telefon||'-') + '\n' +
+      'Adresse: ' + (data.strasse||'') + ', ' + (data.plz||'') + ' ' + (data.ort||'') + '\n' +
+      'Typ: ' + (data.gebaeudetyp||data.typ||'-') + '\n' +
+      'Nachricht: ' + (data.nachricht||'-') + '\n' +
+      'Newsletter: ' + (data.newsletter ? 'Ja' : 'Nein') + '\n' +
+      'Marke: ' + m + '\n\n---\nAlle Kontakte: https://docs.google.com/spreadsheets/d/' + SPREADSHEET_ID;
+    MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
   } catch (e) {
-    // E-Mail-Fehler nicht als Gesamtfehler werten
-    console.log('E-Mail-Benachrichtigung fehlgeschlagen: ' + e.toString());
+    console.log('E-Mail fehlgeschlagen: ' + e.toString());
   }
 }
