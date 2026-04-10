@@ -2634,6 +2634,29 @@
         document.querySelector('.header-nav').classList.remove('active');
       });
     });
+
+    /* ===== DOI BESTÄTIGUNG: Willkommens-Nachricht + Welcome-Mail auslösen ===== */
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('confirmed') === '1') {
+        // Erfolgsmeldung anzeigen
+        const banner = document.createElement('div');
+        banner.setAttribute('style',
+          'position:fixed;top:0;left:0;right:0;z-index:9999;background:#95C11F;color:#00354E;' +
+          'text-align:center;padding:14px 20px;font-weight:700;font-size:0.9375rem;' +
+          'font-family:var(--font-body);box-shadow:0 2px 12px rgba(0,0,0,0.15);');
+        banner.textContent = '\u2713 Anmeldung best\u00e4tigt \u2014 willkommen beim W\u00e4rmenetz-Newsletter!';
+        document.body.prepend(banner);
+        // Banner nach 8 Sekunden ausblenden
+        setTimeout(function() {
+          banner.style.transition = 'opacity 0.5s ease';
+          banner.style.opacity = '0';
+          setTimeout(function() { banner.remove(); }, 500);
+        }, 8000);
+        // URL aufr\u00e4umen (Parameter entfernen)
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    })();
   </script>
 
 </body>
