@@ -1158,6 +1158,387 @@
       transform: translateY(0);
     }
 
+    /* Stagger delays for children */
+    .stagger-children .reveal:nth-child(1) { transition-delay: 0s; }
+    .stagger-children .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .stagger-children .reveal:nth-child(3) { transition-delay: 0.2s; }
+    .stagger-children .reveal:nth-child(4) { transition-delay: 0.3s; }
+    .stagger-children .reveal:nth-child(5) { transition-delay: 0.4s; }
+
+    /* ===== HEIZUNGSVERGLEICH SECTION ===== */
+    .vergleich-section {
+      background: var(--off-white);
+      overflow: hidden;
+    }
+
+    /* --- Comparison Table --- */
+    .vergleich-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 calc(-1 * var(--space-6));
+      padding: 0 var(--space-6) var(--space-4);
+    }
+
+    .vergleich-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.9375rem;
+    }
+
+    .vergleich-table thead th {
+      padding: var(--space-4) var(--space-4);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      text-align: center;
+      border-bottom: 2px solid var(--mid-gray);
+      background: var(--off-white);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .vergleich-table thead th:first-child {
+      text-align: left;
+      min-width: 160px;
+    }
+
+    /* HHB highlight column */
+    .vergleich-table thead th.hhb-col {
+      background: var(--navy);
+      color: var(--green);
+      border-bottom-color: var(--navy);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      position: relative;
+    }
+
+    .vergleich-table thead th.hhb-col::before {
+      content: '★ Empfohlen';
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--green);
+      margin-bottom: var(--space-1);
+      text-transform: uppercase;
+    }
+
+    .vergleich-table tbody td {
+      padding: var(--space-3) var(--space-4);
+      text-align: center;
+      color: var(--text-dark);
+      border-bottom: 1px solid var(--light-gray);
+      background: var(--white);
+      transition: background 0.3s ease;
+    }
+
+    .vergleich-table tbody td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--white);
+    }
+
+    .vergleich-table tbody td.hhb-col {
+      background: rgba(0, 53, 78, 0.04);
+      font-weight: 700;
+      color: var(--navy);
+      border-left: 2px solid var(--navy);
+      border-right: 2px solid var(--navy);
+    }
+
+    .vergleich-table tbody tr:last-child td.hhb-col {
+      border-bottom: 2px solid var(--navy);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .vergleich-table tbody tr:hover td {
+      background: rgba(149, 193, 31, 0.06);
+    }
+
+    .vergleich-table tbody tr:hover td.hhb-col {
+      background: rgba(0, 53, 78, 0.08);
+    }
+
+    /* Status badges in table */
+    .badge-ja {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(149, 193, 31, 0.15);
+      color: var(--green-dark);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+
+    .badge-nein {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(209, 64, 64, 0.1);
+      color: #B91C1C;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+
+    .badge-neutral {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(93, 146, 170, 0.12);
+      color: var(--steel-blue);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+
+    /* --- CO2 Bar Chart --- */
+    .co2-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: var(--space-5);
+      height: 320px;
+      padding: var(--space-8) 0 var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .co2-bar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      max-width: 120px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .co2-bar-value {
+      font-size: 0.9375rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-2);
+    }
+
+    .co2-bar {
+      width: 100%;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      transition: height 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .co2-bar-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+      margin-top: var(--space-3);
+      min-height: 2.6em;
+    }
+
+    /* --- Kosten-Prognose Karten --- */
+    .kosten-prognose-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .kosten-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--light-gray);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .kosten-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .kosten-card.highlight {
+      border: 2px solid var(--green);
+      background: linear-gradient(180deg, rgba(149, 193, 31, 0.05) 0%, var(--white) 100%);
+      position: relative;
+    }
+
+    .kosten-card.highlight::before {
+      content: 'Ihr Vorteil';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: var(--navy);
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 14px;
+      border-radius: 20px;
+    }
+
+    .kosten-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-4);
+    }
+
+    .kosten-card h4 {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-2);
+    }
+
+    .kosten-card .kosten-value {
+      font-size: 1.75rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: var(--space-1);
+    }
+
+    .kosten-card .kosten-sub {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    /* --- Förder-Rechnung --- */
+    .foerder-rechnung {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--light-gray);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .foerder-rechnung h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-6);
+      text-align: center;
+    }
+
+    .foerder-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--light-gray);
+      font-size: 0.9375rem;
+    }
+
+    .foerder-line:last-child {
+      border-bottom: none;
+    }
+
+    .foerder-line .foerder-label {
+      color: var(--text-dark);
+    }
+
+    .foerder-line .foerder-amount {
+      font-weight: 700;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .foerder-line.total {
+      border-top: 2px solid var(--navy);
+      border-bottom: none;
+      padding-top: var(--space-4);
+      margin-top: var(--space-2);
+    }
+
+    .foerder-line.total .foerder-label {
+      font-weight: 800;
+      color: var(--navy);
+      font-size: 1.0625rem;
+    }
+
+    .foerder-line.total .foerder-amount {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .foerder-note {
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: var(--space-4);
+    }
+
+    /* --- Sub-section headers --- */
+    .vergleich-sub-header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+      margin-top: var(--space-16);
+    }
+
+    .vergleich-sub-header:first-of-type {
+      margin-top: 0;
+    }
+
+    .vergleich-sub-header h3 {
+      font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.625rem);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: var(--space-2);
+    }
+
+    .vergleich-sub-header p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .co2-bars {
+        height: 200px;
+        gap: var(--space-3);
+      }
+      .co2-bar-item { max-width: 72px; }
+      .co2-bar-label { font-size: 0.6875rem; }
+      .kosten-prognose-grid { grid-template-columns: 1fr; }
+      .kosten-card.highlight { margin-top: var(--space-4); }
+      .foerder-rechnung { padding: var(--space-5); }
+    }
+
+    /* Source footnote */
+    .vergleich-quellen {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: var(--space-8);
+      line-height: 1.7;
+    }
+
+    .vergleich-quellen a {
+      color: var(--steel-blue);
+      text-decoration: underline;
+    }
+
     /* ===== LOADING STATE FOR BUTTONS ===== */
     .btn.loading {
       pointer-events: none;
@@ -1193,9 +1574,9 @@
       </button>
       <nav class="header-nav">
         <a href="#vorteile">Vorteile</a>
+        <a href="#vergleich">Vergleich</a>
         <a href="#so-funktionierts">Ablauf</a>
         <a href="#geg">Wärmeplanung</a>
-        <a href="#foerderung">Förderung</a>
         <a href="#faq">FAQ</a>
         <a href="#formular" class="header-cta">Machen Sie mit!</a>
       </nav>
@@ -1395,6 +1776,210 @@
           <span class="fakt-value">8,4 MW</span>
           <span class="fakt-label">Geplante Flex-Leistung</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEIZUNGSVERGLEICH -->
+  <section class="section vergleich-section" id="vergleich">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Heizungsvergleich</span>
+        <h2 class="section-title">Wie schneidet Nahwärme ab?</h2>
+        <p class="section-sub">Faktenbasierter Vergleich für ein durchschnittliches Einfamilienhaus (150 m², 15.000 kWh Wärmebedarf pro Jahr).</p>
+      </div>
+
+      <!-- 1) Vergleichstabelle -->
+      <div class="vergleich-table-wrap reveal">
+        <table class="vergleich-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="hhb-col">Biogas-Nahwärme</th>
+              <th>Kalte Nahwärme</th>
+              <th>Gasheizung</th>
+              <th>Ölheizung</th>
+              <th>Wärmepumpe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vollkosten pro kWh</td>
+              <td class="hhb-col">10–16 ct</td>
+              <td>14–24 ct</td>
+              <td>16–22 ct</td>
+              <td>17–24 ct</td>
+              <td>11–18 ct</td>
+            </tr>
+            <tr>
+              <td>Investition (einmalig)</td>
+              <td class="hhb-col">5.000–15.000 €</td>
+              <td>10.000–20.000 €</td>
+              <td>8.500–16.000 €</td>
+              <td>11.750–20.500 €</td>
+              <td>15.000–35.000 €</td>
+            </tr>
+            <tr>
+              <td>Betriebskosten / Jahr</td>
+              <td class="hhb-col">1.700–2.900 €</td>
+              <td>1.400–2.000 €</td>
+              <td>2.400 €</td>
+              <td>1.900–2.000 €</td>
+              <td>1.350–1.600 €</td>
+            </tr>
+            <tr>
+              <td>CO₂-Emissionen</td>
+              <td class="hhb-col">~30–60 g/kWh</td>
+              <td>~50–100 g/kWh</td>
+              <td>201 g/kWh</td>
+              <td>266 g/kWh</td>
+              <td>~50–100 g/kWh</td>
+            </tr>
+            <tr>
+              <td>GEG 2024 erfüllt?</td>
+              <td class="hhb-col"><span class="badge-ja">✓ Ja</span></td>
+              <td><span class="badge-ja">✓ Ja</span></td>
+              <td><span class="badge-nein">✗ Nein</span></td>
+              <td><span class="badge-nein">✗ Nein</span></td>
+              <td><span class="badge-ja">✓ Ja</span></td>
+            </tr>
+            <tr>
+              <td>Förderung möglich</td>
+              <td class="hhb-col"><span class="badge-ja">Bis 70 %</span></td>
+              <td><span class="badge-ja">Bis 70 %</span></td>
+              <td><span class="badge-nein">Keine</span></td>
+              <td><span class="badge-nein">Keine</span></td>
+              <td><span class="badge-ja">Bis 70 %</span></td>
+            </tr>
+            <tr>
+              <td>CO₂-Steuer 2025</td>
+              <td class="hhb-col" style="color: var(--green-dark);">0 € / Jahr</td>
+              <td>0 € / Jahr</td>
+              <td style="color: #B91C1C;">166 € / Jahr</td>
+              <td style="color: #B91C1C;">263 € / Jahr</td>
+              <td>0 € / Jahr</td>
+            </tr>
+            <tr>
+              <td>Preisstabilität</td>
+              <td class="hhb-col"><span class="badge-ja">Hoch</span></td>
+              <td><span class="badge-ja">Hoch</span></td>
+              <td><span class="badge-nein">Gering</span></td>
+              <td><span class="badge-nein">Sehr gering</span></td>
+              <td><span class="badge-neutral">Mittel</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2) CO₂-Steuer-Balken -->
+      <div class="vergleich-sub-header reveal">
+        <h3>CO₂-Steuer: Was kostet Sie das bis 2030?</h3>
+        <p>Fossile Heizungen werden durch die steigende CO₂-Bepreisung immer teurer. Biogas-Nahwärme und Wärmepumpe bleiben bei 0 €.</p>
+      </div>
+      <div class="reveal" id="co2-chart">
+        <div class="co2-bars">
+          <div class="co2-bar-item">
+            <div class="co2-bar-value">0 €</div>
+            <div class="co2-bar" data-target-height="8" style="background: linear-gradient(to top, var(--green-dark), var(--green)); height: 8px;"></div>
+            <div class="co2-bar-label">Biogas-<br>Nahwärme</div>
+          </div>
+          <div class="co2-bar-item">
+            <div class="co2-bar-value">0 €</div>
+            <div class="co2-bar" data-target-height="8" style="background: linear-gradient(to top, var(--steel-blue), #8BABC0); height: 8px;"></div>
+            <div class="co2-bar-label">Wärme-<br>pumpe</div>
+          </div>
+          <div class="co2-bar-item">
+            <div class="co2-bar-value">361 €</div>
+            <div class="co2-bar" data-target-height="140" style="background: linear-gradient(to top, #D97706, #F59E0B); height: 8px;"></div>
+            <div class="co2-bar-label">Gas-<br>heizung</div>
+          </div>
+          <div class="co2-bar-item">
+            <div class="co2-bar-value">574 €</div>
+            <div class="co2-bar" data-target-height="220" style="background: linear-gradient(to top, #B91C1C, #EF4444); height: 8px;"></div>
+            <div class="co2-bar-label">Öl-<br>heizung</div>
+          </div>
+        </div>
+        <p style="text-align: center; font-size: 0.8125rem; color: var(--text-muted);">Prognose 2030 bei 120 €/t CO₂ — EFH mit 15.000 kWh/a. Quelle: Polarstern Energie, Verbraucherzentrale.</p>
+      </div>
+
+      <!-- 3) Kosten-Karten -->
+      <div class="vergleich-sub-header reveal">
+        <h3>Was zahlen Sie wirklich pro Jahr?</h3>
+        <p>Jährliche Gesamtkosten im Vergleich — inklusive CO₂-Steuer, Wartung und Betrieb.</p>
+      </div>
+      <div class="kosten-prognose-grid stagger-children">
+        <div class="kosten-card reveal">
+          <div class="kosten-card-icon" style="background: rgba(185, 28, 28, 0.1);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h4>Ölheizung</h4>
+          <div class="kosten-value" style="color: #B91C1C;">~2.700 €</div>
+          <div class="kosten-sub">pro Jahr (Prognose 2030)<br>Tendenz stark steigend</div>
+        </div>
+        <div class="kosten-card reveal">
+          <div class="kosten-card-icon" style="background: rgba(217, 119, 6, 0.1);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h4>Gasheizung</h4>
+          <div class="kosten-value" style="color: #D97706;">~3.200 €</div>
+          <div class="kosten-sub">pro Jahr (Prognose 2030)<br>inkl. Biogas-Pflichtquote</div>
+        </div>
+        <div class="kosten-card highlight reveal">
+          <div class="kosten-card-icon" style="background: rgba(149, 193, 31, 0.15);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          </div>
+          <h4>Biogas-Nahwärme</h4>
+          <div class="kosten-value" style="color: var(--green-dark);">~1.900 €</div>
+          <div class="kosten-sub">pro Jahr — stabil<br>Keine CO₂-Steuer, keine Börsenrisiken</div>
+        </div>
+      </div>
+
+      <!-- 4) Förder-Rechenbeispiel -->
+      <div class="vergleich-sub-header reveal">
+        <h3>Rechenbeispiel: Ihr Eigenanteil nach Förderung</h3>
+        <p>Ein typisches Einfamilienhaus mit 10.000 € Anschlusskosten — so sieht die Rechnung aus:</p>
+      </div>
+      <div class="foerder-rechnung reveal">
+        <h3>Förderrechnung Wärmenetzanschluss</h3>
+        <div class="foerder-line">
+          <span class="foerder-label">Anschlusskosten (brutto)</span>
+          <span class="foerder-amount">10.000 €</span>
+        </div>
+        <div class="foerder-line">
+          <span class="foerder-label">./. Grundförderung (30 %)</span>
+          <span class="foerder-amount" style="color: var(--green-dark);">-3.000 €</span>
+        </div>
+        <div class="foerder-line">
+          <span class="foerder-label">./. Geschwindigkeitsbonus (20 %)</span>
+          <span class="foerder-amount" style="color: var(--green-dark);">-2.000 €</span>
+        </div>
+        <div class="foerder-line">
+          <span class="foerder-label">./. Einkommensbonus (20 %)</span>
+          <span class="foerder-amount" style="color: var(--green-dark);">-2.000 €</span>
+        </div>
+        <div class="foerder-line total">
+          <span class="foerder-label">Ihr Eigenanteil</span>
+          <span class="foerder-amount">ab 3.000 €</span>
+        </div>
+        <p class="foerder-note">KfW-Programm 458 — Antrag vor Vertragsabschluss. Max. 70 % Förderung, max. 21.000 € pro WE. Stand 2026.</p>
+      </div>
+
+      <!-- CTA -->
+      <div class="reveal" style="text-align: center; margin-top: var(--space-12);">
+        <a href="#formular" class="btn btn-primary" style="font-size: 1.0625rem; padding: var(--space-4) var(--space-8);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+          Jetzt unverbindlich Interesse bekunden
+        </a>
+      </div>
+
+      <!-- Quellen -->
+      <div class="vergleich-quellen">
+        Quellen: <a href="https://www.agora-energiewende.de/publikationen/waermenetze-klimaneutral-wirtschaftlich-und-bezahlbar" target="_blank" rel="noopener">Agora Energiewende 2024</a> | 
+        <a href="https://www.verbraucherzentrale.de/wissen/energie/heizen-und-warmwasser/so-viel-teurer-macht-der-co2preis-ihre-heizkosten-43806" target="_blank" rel="noopener">Verbraucherzentrale</a> | 
+        <a href="https://www.heizungsfinder.de/gasheizung/kosten-preise" target="_blank" rel="noopener">Heizungsfinder</a> | 
+        <a href="https://gruenes.haus/waermepumpe-kosten/" target="_blank" rel="noopener">Grünes Haus</a> | 
+        <a href="https://www.polarstern-energie.de/magazin/artikel/co2-bepreisung-nach-heizsystem/" target="_blank" rel="noopener">Polarstern Energie</a> | 
+        <a href="https://energie-beratung-schmidt.de/kfw-forderung-458-heizungsforderung-fur-privatpersonen/" target="_blank" rel="noopener">KfW 458</a>
       </div>
     </div>
   </section>
@@ -2023,6 +2608,26 @@
       }
     });
 
+    /* ===== CO2 BAR CHART ANIMATION ===== */
+    const co2Chart = document.getElementById('co2-chart');
+    if (co2Chart) {
+      const barObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const bars = entry.target.querySelectorAll('.co2-bar');
+            bars.forEach((bar, i) => {
+              const targetH = bar.getAttribute('data-target-height');
+              setTimeout(() => {
+                bar.style.height = targetH + 'px';
+              }, i * 200);
+            });
+            barObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      barObserver.observe(co2Chart);
+    }
+
     /* ===== SMOOTH SCROLL FOR NAV + CLOSE MOBILE MENU ===== */
     document.querySelectorAll('.header-nav a').forEach(link => {
       link.addEventListener('click', () => {
@@ -2033,4 +2638,4 @@
 
 </body>
 </html>
-<!-- Deployed 2026-04-06T11:51:56Z -->
+<!-- Deployed 2026-04-10T10:55:00Z -->
