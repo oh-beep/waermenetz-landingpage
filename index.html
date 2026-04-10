@@ -1539,6 +1539,166 @@
       text-decoration: underline;
     }
 
+    /* ===== QUELLENVERZEICHNIS AKKORDEON ===== */
+    .quellen-accordion {
+      margin-top: var(--space-10);
+      border: 1px solid var(--mid-gray);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .quellen-accordion-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--space-5) var(--space-6);
+      background: var(--off-white);
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--navy);
+      transition: background var(--transition);
+    }
+
+    .quellen-accordion-toggle:hover {
+      background: var(--light-gray);
+    }
+
+    .quellen-accordion-toggle svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quellen-accordion.open .quellen-accordion-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    .quellen-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quellen-accordion.open .quellen-accordion-body {
+      max-height: 2000px;
+    }
+
+    .quellen-accordion-inner {
+      padding: var(--space-6);
+    }
+
+    .quellen-section {
+      margin-bottom: var(--space-6);
+    }
+
+    .quellen-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .quellen-section-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .quellen-section-title .qs-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .quellen-herleitung {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: var(--space-3);
+      padding-left: calc(28px + var(--space-2));
+    }
+
+    .quellen-herleitung strong {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .quellen-list {
+      list-style: none;
+      padding-left: calc(28px + var(--space-2));
+    }
+
+    .quellen-list li {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding: var(--space-1) 0;
+      padding-left: var(--space-4);
+      position: relative;
+    }
+
+    .quellen-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--steel-blue);
+    }
+
+    .quellen-list li a {
+      color: var(--steel-blue);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .quellen-list li a:hover {
+      color: var(--navy);
+    }
+
+    .quellen-divider {
+      border: none;
+      border-top: 1px solid var(--light-gray);
+      margin: var(--space-4) 0;
+    }
+
+    .quellen-note {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      padding: var(--space-3) var(--space-4);
+      background: var(--off-white);
+      border-radius: var(--radius-sm);
+      margin-top: var(--space-4);
+    }
+
+    @media (max-width: 640px) {
+      .quellen-accordion-toggle {
+        padding: var(--space-4);
+        font-size: 0.875rem;
+      }
+      .quellen-accordion-inner {
+        padding: var(--space-4);
+      }
+      .quellen-herleitung,
+      .quellen-list {
+        padding-left: 0;
+      }
+    }
+
     /* ===== LOADING STATE FOR BUTTONS ===== */
     .btn.loading {
       pointer-events: none;
@@ -1829,7 +1989,7 @@
             </tr>
             <tr>
               <td>CO₂-Emissionen</td>
-              <td class="hhb-col">~30–60 g/kWh</td>
+              <td class="hhb-col">≈ 0 g/kWh ¹</td>
               <td>~50–100 g/kWh</td>
               <td>201 g/kWh</td>
               <td>266 g/kWh</td>
@@ -1972,7 +2132,7 @@
         </a>
       </div>
 
-      <!-- Quellen -->
+      <!-- Quellen (Kurzzeile) -->
       <div class="vergleich-quellen">
         Quellen: <a href="https://www.agora-energiewende.de/publikationen/waermenetze-klimaneutral-wirtschaftlich-und-bezahlbar" target="_blank" rel="noopener">Agora Energiewende 2024</a> | 
         <a href="https://www.verbraucherzentrale.de/wissen/energie/heizen-und-warmwasser/so-viel-teurer-macht-der-co2preis-ihre-heizkosten-43806" target="_blank" rel="noopener">Verbraucherzentrale</a> | 
@@ -1980,6 +2140,96 @@
         <a href="https://gruenes.haus/waermepumpe-kosten/" target="_blank" rel="noopener">Grünes Haus</a> | 
         <a href="https://www.polarstern-energie.de/magazin/artikel/co2-bepreisung-nach-heizsystem/" target="_blank" rel="noopener">Polarstern Energie</a> | 
         <a href="https://energie-beratung-schmidt.de/kfw-forderung-458-heizungsforderung-fur-privatpersonen/" target="_blank" rel="noopener">KfW 458</a>
+      </div>
+
+      <!-- Fußnote CO₂ -->
+      <p style="text-align: center; font-size: 0.75rem; color: var(--text-light); margin-top: var(--space-3); line-height: 1.6;">
+        ¹ Biogas ist bilanziell CO₂-neutral (biogener Kohlenstoffkreislauf). Hilfsenergie (Pumpen, Rührwerke, Netzpumpen) stammt aus eigenem Biogasstrom. Methanschlupf &lt; 10 g CO₂-Äq./kWh.
+      </p>
+
+      <!-- Quellenverzeichnis Akkordeon -->
+      <div class="quellen-accordion reveal" id="quellenverzeichnis">
+        <button class="quellen-accordion-toggle" aria-expanded="false" aria-controls="quellen-body">
+          <span>📋 Quellenverzeichnis — So berechnen wir die Jahreskosten</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="quellen-accordion-body" id="quellen-body">
+          <div class="quellen-accordion-inner">
+
+            <!-- Biogas-Nahwärme -->
+            <div class="quellen-section">
+              <div class="quellen-section-title">
+                <span class="qs-icon" style="background: rgba(149,193,31,0.15);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                </span>
+                Biogas-Nahwärme: ~1.900 €/Jahr
+              </div>
+              <div class="quellen-herleitung">
+                <strong>Herleitung:</strong> Vollkosten <strong>10–16 ct/kWh</strong> × EFH-Standardverbrauch <strong>15.000 kWh/a</strong> = 1.500–2.400 €/a. Mittelwert ≈ 12,5 ct × 15.000 kWh = <strong>1.875 € ≈ 1.900 €</strong>. Keine CO₂-Steuer, keine Börsenrisiken.
+              </div>
+              <ul class="quellen-list">
+                <li><a href="https://www.waermepreise.info" target="_blank" rel="noopener">Transparenzplattform Fernwärme</a> — Reale Mischpreise EFH bei Biogas-Netzen: 11–16 ct/kWh (AGFW/BDEW/VKU, Stand 01/2026)</li>
+                <li><a href="https://www.carmen-ev.de/2026/03/04/heizungsmodernisierung-im-einfamilienhaus-ein-kostenvergleich/" target="_blank" rel="noopener">C.A.R.M.E.N. e.V. Heizkostenvergleich</a> — Nahwärme Biomasse-Netz: 11,5–12,6 ct/kWh Vollkosten, 2.873 €/a (03/2026)</li>
+                <li><a href="https://www.fw704.de/hauptmenue/kennwerte/pauschalierte-kennwerte" target="_blank" rel="noopener">AGFW FW 704</a> — Pauschalwerte: 80–110 €/MWh Erzeugung (8–11 ct/kWh) bei 100 % EE-Anteil</li>
+                <li><a href="https://www.vea.de/newsroom/pressemitteilungen/pressemitteilung/fernwaermepreisvergleich-2025" target="_blank" rel="noopener">VEA Fernwärmepreisvergleich 2025</a> — Durchschnitt 13,0 ct/kWh, günstigstes Netz 8,8 ct/kWh (84 Unternehmen)</li>
+                <li><a href="https://www.agora-energiewende.de/fileadmin/Projekte/2023/2023-18_DE_Business_Case_Waermenetze/A-EW_335_Businesscase_Waermenetze_WEB.pdf" target="_blank" rel="noopener">Agora Energiewende 2024</a> — Modellierte Endkundenpreise klimaneutraler Wärmenetze: 11–14,3 ct/kWh</li>
+                <li><a href="https://www.verbraucherzentrale.de/wissen/energie/heizen-und-warmwasser/fernwaerme-kosten-sparen-und-gleichzeitig-das-klima-schonen-34038" target="_blank" rel="noopener">Verbraucherzentrale</a> — Median Fernwärme 17 ct/kWh, EE-Netze ab 10 ct/kWh (576 Netze, 07/2025)</li>
+                <li><a href="https://www.heizspiegel.de/presse/pressemitteilungen/pressemitteilung/beitrag/heizspiegel-2025-heizen-mit-gas-wieder-deutlich-teurer-waermepumpen-seit-2022-guenstiger-26411/" target="_blank" rel="noopener">co2online Heizspiegel 2025</a> — Fernwärme Ø 1.245 € (70 m² MFH), geringste Preissteigerung (+2 %)</li>
+                <li><a href="https://www.ifeu.de/fileadmin/uploads/W%C3%A4rmenetze-4.0-Endbericht-final.pdf" target="_blank" rel="noopener">IFEU Wärmenetze 4.0</a> — Bio-Solar-Netz Büsingen: 12,1 ct/kWh, Bandbreite 6,5–20 ct/kWh</li>
+              </ul>
+            </div>
+
+            <hr class="quellen-divider">
+
+            <!-- Gasheizung -->
+            <div class="quellen-section">
+              <div class="quellen-section-title">
+                <span class="qs-icon" style="background: rgba(217,119,6,0.1);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </span>
+                Gasheizung: ~3.200 €/Jahr (Prognose 2030)
+              </div>
+              <div class="quellen-herleitung">
+                <strong>Herleitung:</strong> Gaspreis <strong>14–24 ct/kWh</strong> × 15.000 kWh = 2.100–3.600 €/a + <strong>CO₂-Steuer 2030</strong> (120 €/t × 201 g/kWh × 15.000 kWh ≈ 361 €/a) + <strong>Biogas-Pflichtquote</strong> ab 2029. Prognose-Mittelwert ≈ <strong>3.200 €</strong>.
+              </div>
+              <ul class="quellen-list">
+                <li><a href="https://www.polarstern-energie.de/magazin/artikel/co2-bepreisung-nach-heizsystem/" target="_blank" rel="noopener">Polarstern Energie</a> — CO₂-Steuer-Prognose: 120 €/t ab 2030, Gasheizung 361 €/a Zusatzkosten</li>
+                <li><a href="https://www.verbraucherzentrale.de/wissen/energie/heizen-und-warmwasser/so-viel-teurer-macht-der-co2preis-ihre-heizkosten-43806" target="_blank" rel="noopener">Verbraucherzentrale</a> — CO₂-Bepreisung nach Heizsystem: Gas 201 g/kWh, steigender Aufschlag</li>
+                <li><a href="https://www.agora-energiewende.de/publikationen/waermenetze-klimaneutral-wirtschaftlich-und-bezahlbar" target="_blank" rel="noopener">Agora Energiewende</a> — Biogas-Pflichtquote ab 2029 verteuert Erdgastarif um 2–4 ct/kWh</li>
+                <li><a href="https://www.heizungsfinder.de/gasheizung/kosten-preise" target="_blank" rel="noopener">Heizungsfinder</a> — Aktuelle Gaspreise inkl. Grundgebühr: 14–24 ct/kWh EFH (2025/26)</li>
+              </ul>
+            </div>
+
+            <hr class="quellen-divider">
+
+            <!-- Ölheizung -->
+            <div class="quellen-section">
+              <div class="quellen-section-title">
+                <span class="qs-icon" style="background: rgba(185,28,28,0.1);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </span>
+                Ölheizung: ~2.700 €/Jahr (Prognose 2030)
+              </div>
+              <div class="quellen-herleitung">
+                <strong>Herleitung:</strong> Heizölpreis <strong>16–22 ct/kWh</strong> × 15.000 kWh = 2.400–3.300 €/a + <strong>CO₂-Steuer 2030</strong> (120 €/t × 266 g/kWh × 15.000 kWh ≈ 574 €/a). Prognose-Mittelwert ≈ <strong>2.700 €</strong>.
+              </div>
+              <ul class="quellen-list">
+                <li><a href="https://www.polarstern-energie.de/magazin/artikel/co2-bepreisung-nach-heizsystem/" target="_blank" rel="noopener">Polarstern Energie</a> — CO₂-Steuer-Prognose: 120 €/t ab 2030, Ölheizung 574 €/a Zusatzkosten</li>
+                <li><a href="https://www.verbraucherzentrale.de/wissen/energie/heizen-und-warmwasser/so-viel-teurer-macht-der-co2preis-ihre-heizkosten-43806" target="_blank" rel="noopener">Verbraucherzentrale</a> — Heizöl 266 g CO₂/kWh, höchste Zusatzbelastung aller Heizsysteme</li>
+                <li><a href="https://www.carmen-ev.de/2026/03/04/heizungsmodernisierung-im-einfamilienhaus-ein-kostenvergleich/" target="_blank" rel="noopener">C.A.R.M.E.N. e.V.</a> — Heizöl Vollkosten: 14,3 ct/kWh, Jahreskosten 3.575 €/a (25.000 kWh/a)</li>
+                <li><a href="https://www.heizspiegel.de/presse/pressemitteilungen/pressemitteilung/beitrag/heizspiegel-2025-heizen-mit-gas-wieder-deutlich-teurer-waermepumpen-seit-2022-guenstiger-26411/" target="_blank" rel="noopener">co2online Heizspiegel 2025</a> — Heizöl Ø 1.055 € (70 m² MFH), Prognose: Verdreifachung in 20 Jahren</li>
+              </ul>
+            </div>
+
+            <hr class="quellen-divider">
+
+            <!-- Hinweis -->
+            <div class="quellen-note">
+              <strong>Berechnungsbasis:</strong> Einfamilienhaus mit 15.000 kWh/a Wärmebedarf (AGFW-Standard, 15 kW Anschlussleistung). Alle Preise brutto inkl. MwSt. CO₂-Steuer-Prognose 2030: 120 €/t nach BEHG. Vollständiges Quellenverzeichnis mit 19+ Primärquellen liegt als internes Dokument vor.
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2493,6 +2743,16 @@
           btn.setAttribute('aria-expanded', 'true');
           answer.style.maxHeight = answer.scrollHeight + 'px';
         }
+      });
+    });
+
+    /* ===== QUELLENVERZEICHNIS ACCORDION ===== */
+    document.querySelectorAll('.quellen-accordion-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const accordion = btn.closest('.quellen-accordion');
+        const isOpen = accordion.classList.contains('open');
+        accordion.classList.toggle('open');
+        btn.setAttribute('aria-expanded', !isOpen);
       });
     });
 
