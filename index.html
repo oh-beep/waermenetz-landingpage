@@ -1008,6 +1008,18 @@
       margin-top: var(--space-3);
     }
 
+    .newsletter-error {
+      display: none;
+      color: #ff6b6b;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-top: var(--space-4);
+    }
+
+    .newsletter-error.visible {
+      display: block;
+    }
+
     @media (max-width: 520px) {
       .newsletter-form {
         flex-direction: column;
@@ -1649,13 +1661,23 @@
     </div>
   </section>
 
-  <!-- INFO-BANNER (Newsletter entfernt — Double-Opt-In noch nicht implementiert) -->
+  <!-- NEWSLETTER -->
   <section class="newsletter-section" id="newsletter">
     <div class="container">
       <div class="newsletter-inner reveal">
         <h2>Bleiben Sie informiert</h2>
-        <p>Sie möchten über den Ausbau des Wärmenetzes, Tarife und Fördermöglichkeiten auf dem Laufenden bleiben? Bekunden Sie oben Ihr Interesse — wir halten Sie persönlich auf dem Laufenden.</p>
-        <a href="#formular" class="btn btn-primary" style="margin-top: var(--space-4);">Interesse bekunden</a>
+        <p>Erhalten Sie Updates zum Wärmenetz-Ausbau, Tarifinformationen und Fördermöglichkeiten direkt in Ihr Postfach.</p>
+        <form class="newsletter-form" id="newsletter-form" novalidate>
+          <input type="email" name="email" placeholder="Ihre E-Mail-Adresse" required aria-label="E-Mail-Adresse für Newsletter">
+          <button type="submit" class="btn btn-primary">Anmelden</button>
+        </form>
+        <div class="newsletter-success" id="newsletter-success">
+          ✓ Fast geschafft! Bitte bestätigen Sie Ihre Anmeldung über den Link in der E-Mail, die wir Ihnen gerade gesendet haben.
+        </div>
+        <div class="newsletter-error" id="newsletter-error">
+          Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns unter 04164 / 859 93 08.
+        </div>
+        <p class="newsletter-privacy">Kein Spam. Jederzeit abmeldbar. <a href="datenschutz.html#newsletter" style="color: rgba(255,255,255,0.65);">Datenschutz</a></p>
       </div>
     </div>
   </section>
@@ -1894,6 +1916,59 @@
         } else {
           alert('Leider konnte Ihre Anfrage nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns unter 04164 / 859 93 08.');
         }
+      }
+    });
+
+    /* ===== NEWSLETTER FORM ===== */
+    document.getElementById('newsletter-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const emailInput = this.querySelector('input[name="email"]');
+      const email = emailInput.value.trim();
+      const btn = this.querySelector('button');
+      const successDiv = document.getElementById('newsletter-success');
+      const errorDiv = document.getElementById('newsletter-error');
+
+      // E-Mail-Validierung
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailInput.focus();
+        return;
+      }
+
+      btn.classList.add('loading');
+      btn.textContent = 'Wird gesendet...';
+      errorDiv.classList.remove('visible');
+
+      try {
+        const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxkvdJkGDmczeTUPdduyWxIg6piRbZ0KPMEZZ0YSrj_O9U-auVJsfLuTCUB2n0Ws5Qx/exec';
+
+        await fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'newsletter',
+            email: email,
+            marke: 'waermenetz',
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        // Erfolg
+        this.style.display = 'none';
+        successDiv.classList.add('visible');
+
+        // GA4 Event
+        if (typeof gtag === 'function') {
+          gtag('event', 'newsletter_signup', {
+            event_category: 'waermenetz',
+            event_label: 'newsletter'
+          });
+        }
+      } catch (err) {
+        btn.classList.remove('loading');
+        btn.textContent = 'Anmelden';
+        errorDiv.classList.add('visible');
       }
     });
 
