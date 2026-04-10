@@ -11,23 +11,27 @@
   <meta property="og:title" content="Nahwärme aus Harsefeld — HHB Agrarenergie">
   <meta property="og:description" content="Klimafreundlich heizen mit Biogas-Nahwärme. Transparent, fair und zukunftssicher. Seit 2011.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hhb-agrarenergie.de/waermenetz">
+  <meta property="og:url" content="https://waermenetz.hhb-agrarenergie.de">
+  <meta property="og:image" content="https://waermenetz.hhb-agrarenergie.de/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nahwärme aus Harsefeld — HHB Agrarenergie">
+  <meta name="twitter:description" content="Klimafreundlich heizen mit Biogas-Nahwärme. Transparent, fair und zukunftssicher. Seit 2011.">
+  <meta name="twitter:image" content="https://waermenetz.hhb-agrarenergie.de/assets/og-image.png">
+  <link rel="canonical" href="https://waermenetz.hhb-agrarenergie.de">
 
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NPMQN3R2T"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6NPMQN3R2T');
-  </script>
+  <!-- Google Analytics 4 — nur nach Cookie-Consent laden -->
+  <!-- GA4 wird über Klaro Consent Manager gesteuert (siehe Script am Ende) -->
 
   <!-- Fonts: Source Sans Pro (HHB brand font) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 
   <style>
     /* ===== RESET & BASE ===== */
@@ -1563,7 +1567,7 @@
           <div class="contact-box">
             <h4>Ihre Ansprechpartnerin</h4>
             <p>Birgit Lindstedt<br>
-            Tel.: <a href="tel:+494164859-9308">04164 / 859 93 08</a><br>
+            Tel.: <a href="tel:+4941648599308">04164 / 859 93 08</a><br>
             E-Mail: <a href="mailto:info@hhb-agrarenergie.de">info@hhb-agrarenergie.de</a></p>
           </div>
         </div>
@@ -1618,11 +1622,10 @@
                 <label for="nachricht">Nachricht (optional)</label>
                 <textarea id="nachricht" name="nachricht" placeholder="Haben Sie besondere Fragen oder Anmerkungen?"></textarea>
               </div>
-              <div class="form-group">
-                <div class="checkbox-group">
-                  <input type="checkbox" id="newsletter-opt" name="newsletter">
-                  <label for="newsletter-opt">Ja, ich möchte den HHB-Newsletter mit aktuellen Informationen zum Wärmenetz erhalten.</label>
-                </div>
+              <!-- Honeypot — unsichtbar für Menschen, fängt Bots -->
+              <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
               </div>
               <div class="form-group">
                 <div class="checkbox-group">
@@ -1631,6 +1634,9 @@
                 </div>
               </div>
               <button type="submit" class="btn btn-primary form-submit">Unverbindlich Interesse bekunden</button>
+              <div class="form-error" id="form-error">
+                Leider konnte Ihre Anfrage nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href="tel:+4941648599308">04164 / 859 93 08</a>.
+              </div>
             </form>
             <div class="form-success" id="form-success">
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
@@ -1643,18 +1649,13 @@
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
+  <!-- INFO-BANNER (Newsletter entfernt — Double-Opt-In noch nicht implementiert) -->
   <section class="newsletter-section" id="newsletter">
     <div class="container">
       <div class="newsletter-inner reveal">
         <h2>Bleiben Sie informiert</h2>
-        <p>Erhalten Sie aktuelle Neuigkeiten zum Wärmenetz-Ausbau, zu Tarifen und zu Fördermöglichkeiten — direkt in Ihr Postfach.</p>
-        <form class="newsletter-form" id="newsletter-form">
-          <input type="email" placeholder="Ihre E-Mail-Adresse" required autocomplete="email" aria-label="E-Mail-Adresse für Newsletter">
-          <button type="submit" class="btn btn-primary">Anmelden</button>
-        </form>
-        <div class="newsletter-success" id="newsletter-success">Vielen Dank — Sie sind angemeldet!</div>
-        <p class="newsletter-privacy">Mit der Anmeldung akzeptieren Sie unsere <a href="datenschutz.html" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.65); text-decoration: underline;">Datenschutzerklärung</a>. Abmeldung jederzeit möglich.</p>
+        <p>Sie möchten über den Ausbau des Wärmenetzes, Tarife und Fördermöglichkeiten auf dem Laufenden bleiben? Bekunden Sie oben Ihr Interesse — wir halten Sie persönlich auf dem Laufenden.</p>
+        <a href="#formular" class="btn btn-primary" style="margin-top: var(--space-4);">Interesse bekunden</a>
       </div>
     </div>
   </section>
@@ -1670,7 +1671,7 @@
         <div>
           <h4>Kontakt</h4>
           <ul class="footer-links">
-            <li><a href="tel:+49416485993-08">04164 / 859 93 08</a></li>
+            <li><a href="tel:+4941648599308">04164 / 859 93 08</a></li>
             <li><a href="mailto:info@hhb-agrarenergie.de">info@hhb-agrarenergie.de</a></li>
             <li>Postfach 1240<br>21695 Harsefeld</li>
           </ul>
@@ -1678,7 +1679,7 @@
         <div>
           <h4>Rechtliches</h4>
           <ul class="footer-links">
-            <li><a href="https://hhb-agrarenergie.de/impressum" target="_blank" rel="noopener">Impressum</a></li>
+            <li><a href="impressum.html">Impressum</a></li>
             <li><a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a></li>
             <li><a href="https://hhb-agrarenergie.de" target="_blank" rel="noopener">hhb-agrarenergie.de</a></li>
           </ul>
@@ -1690,6 +1691,116 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== KLARO COOKIE CONSENT ===== -->
+  <style>
+    /* Klaro consent banner — HHB-Brand-Styling */
+    .klaro .cookie-notice {
+      background: var(--navy-dark, #002A3B) !important;
+      font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
+      border-top: 3px solid var(--green, #95C11F) !important;
+    }
+    .klaro .cookie-notice .cn-body p {
+      color: rgba(255,255,255,0.85) !important;
+      font-size: 0.9375rem !important;
+    }
+    .klaro .cookie-notice .cn-ok .cm-btn-success {
+      background: var(--green, #95C11F) !important;
+      color: var(--navy, #00354E) !important;
+      font-weight: 700 !important;
+    }
+    .klaro .cookie-notice .cn-ok .cm-btn-danger {
+      background: transparent !important;
+      border: 1px solid rgba(255,255,255,0.3) !important;
+      color: rgba(255,255,255,0.75) !important;
+    }
+    .klaro .cookie-modal .cm-header h1 {
+      color: var(--navy, #00354E) !important;
+      font-weight: 900 !important;
+    }
+    /* Error message styling for form */
+    .form-error {
+      display: none;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      margin-top: var(--space-4);
+      color: #991B1B;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+    .form-error.visible { display: block; }
+  </style>
+
+  <script>
+    /* ===== KLARO CONSENT CONFIG ===== */
+    var klaroConfig = {
+      version: 1,
+      elementID: 'klaro',
+      storageMethod: 'localStorage',
+      storageName: 'klaro-waermenetz',
+      htmlTexts: true,
+      cookieExpiresAfterDays: 365,
+      default: false,
+      mustConsent: false,
+      acceptAll: true,
+      hideDeclineAll: false,
+      translations: {
+        de: {
+          consentNotice: {
+            description: 'Wir nutzen Cookies und Dienste, um die Nutzung unserer Website zu analysieren. Sie k\u00F6nnen entscheiden, welche Dienste Sie zulassen m\u00F6chten.',
+            learnMore: 'Einstellungen'
+          },
+          consentModal: {
+            title: 'Datenschutz-Einstellungen',
+            description: 'Hier k\u00F6nnen Sie die Dienste, die auf dieser Website eingesetzt werden, im Detail verwalten.'
+          },
+          acceptAll: 'Alle akzeptieren',
+          acceptSelected: 'Auswahl speichern',
+          decline: 'Nur Notwendige',
+          ok: 'Alle akzeptieren',
+          purposes: {
+            analytics: 'Analyse'
+          }
+        }
+      },
+      lang: 'de',
+      services: [
+        {
+          name: 'google-analytics',
+          title: 'Google Analytics 4',
+          description: 'Erfasst anonymisierte Nutzungsdaten, um die Website zu verbessern.',
+          purposes: ['analytics'],
+          cookies: [
+            [/^_ga/, '/', '.hhb-agrarenergie.de'],
+            [/^_gid/, '/', '.hhb-agrarenergie.de'],
+            [/^_gat/, '/', '.hhb-agrarenergie.de']
+          ],
+          default: false,
+          required: false,
+          optOut: false,
+          onlyOnce: true,
+          callback: function(consent, service) {
+            if (consent) {
+              // GA4 laden
+              var s = document.createElement('script');
+              s.src = 'https://www.googletagmanager.com/gtag/js?id=G-6NPMQN3R2T';
+              s.async = true;
+              document.head.appendChild(s);
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              window.gtag = gtag;
+              gtag('js', new Date());
+              gtag('config', 'G-6NPMQN3R2T', { anonymize_ip: true });
+            }
+          }
+        }
+      ]
+    };
+  </script>
+  <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
+  <div id="klaro"></div>
 
   <script>
     /* ===== SCROLL REVEAL ===== */
@@ -1730,81 +1841,59 @@
     /* ===== INTEREST FORM SUBMISSION ===== */
     document.getElementById('interest-form').addEventListener('submit', async function(e) {
       e.preventDefault();
+
+      // Honeypot-Check: Wenn das versteckte Feld gefüllt ist, ist es ein Bot
+      const honeypot = this.querySelector('#website');
+      if (honeypot && honeypot.value) {
+        // Bot erkannt — leise abbrechen, Erfolg vortäuschen
+        this.style.display = 'none';
+        document.getElementById('form-success').classList.add('visible');
+        return;
+      }
+
       const btn = this.querySelector('.form-submit');
+      const errorDiv = document.getElementById('form-error');
       btn.classList.add('loading');
       btn.textContent = 'Wird gesendet...';
+      if (errorDiv) errorDiv.classList.remove('visible');
 
       const formData = new FormData(this);
       const data = Object.fromEntries(formData.entries());
-      data.newsletter = formData.get('newsletter') === 'on';
+      delete data.website; // Honeypot-Feld nicht mitsenden
+      delete data.datenschutz; // Checkbox nicht mitsenden
       data.timestamp = new Date().toISOString();
 
       try {
-        // Send to Google Sheets via Apps Script
-        // PLACEHOLDER: Replace with actual Apps Script Web App URL
         const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxkvdJkGDmczeTUPdduyWxIg6piRbZ0KPMEZZ0YSrj_O9U-auVJsfLuTCUB2n0Ws5Qx/exec';
 
-        if (SHEETS_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL') {
-          await fetch(SHEETS_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(data)
-          });
-        }
+        await fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
 
-        // Show success
+        // Erfolg anzeigen
         this.style.display = 'none';
         document.getElementById('form-success').classList.add('visible');
 
-        // GA4: Interessenbekundung abgeschickt
+        // GA4 Event (nur wenn Consent erteilt)
         if (typeof gtag === 'function') {
           gtag('event', 'interest_form_submit', {
             event_category: 'waermenetz',
             event_label: data.gebaeudetyp || 'nicht angegeben',
-            plz: data.plz,
-            newsletter_opt_in: data.newsletter
+            plz: data.plz
           });
         }
       } catch (err) {
-        // Still show success (no-cors doesn't return readable response)
-        this.style.display = 'none';
-        document.getElementById('form-success').classList.add('visible');
-      }
-    });
-
-    /* ===== NEWSLETTER FORM ===== */
-    document.getElementById('newsletter-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const btn = this.querySelector('button');
-      const input = this.querySelector('input[type="email"]');
-      btn.classList.add('loading');
-      btn.textContent = 'Wird angemeldet...';
-
-      try {
-        // PLACEHOLDER: Replace with actual Brevo form endpoint or Apps Script
-        const NEWSLETTER_URL = 'https://script.google.com/macros/s/AKfycbxkvdJkGDmczeTUPdduyWxIg6piRbZ0KPMEZZ0YSrj_O9U-auVJsfLuTCUB2n0Ws5Qx/exec';
-
-        if (NEWSLETTER_URL !== 'YOUR_NEWSLETTER_ENDPOINT') {
-          await fetch(NEWSLETTER_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({ email: input.value, type: 'newsletter' })
-          });
+        // Fehler anzeigen
+        btn.classList.remove('loading');
+        btn.textContent = 'Unverbindlich Interesse bekunden';
+        if (errorDiv) {
+          errorDiv.classList.add('visible');
+        } else {
+          alert('Leider konnte Ihre Anfrage nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns unter 04164 / 859 93 08.');
         }
-
-        this.style.display = 'none';
-        document.getElementById('newsletter-success').classList.add('visible');
-
-        // GA4: Newsletter-Anmeldung
-        if (typeof gtag === 'function') {
-          gtag('event', 'newsletter_signup', {
-            event_category: 'waermenetz',
-            event_label: 'waermenetz_newsletter'
-          });
-        }
-      } catch (err) {
-        this.style.display = 'none';
-        document.getElementById('newsletter-success').classList.add('visible');
       }
     });
 
