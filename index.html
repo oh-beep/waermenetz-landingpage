@@ -21,8 +21,12 @@
   <meta name="twitter:image" content="https://waermenetz.hhb-agrarenergie.de/assets/og-image.png">
   <link rel="canonical" href="https://waermenetz.hhb-agrarenergie.de">
 
-  <!-- Google Analytics 4 — nur nach Cookie-Consent laden -->
-  <!-- GA4 wird über Klaro Consent Manager gesteuert (siehe Script am Ende) -->
+  <!-- Privacy-friendly analytics by Plausible (cookielos, DSGVO-konform, kein Consent-Banner nötig) -->
+  <script async src="https://plausible.io/js/pa-emtOeObvB1u1uqx2ixdWR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init();
+  </script>
 
   <!-- Schema.org Structured Data (LocalBusiness) -->
   <script type="application/ld+json">
@@ -1480,6 +1484,77 @@
       color: var(--green-dark);
     }
 
+    /* Förder-Herkunft-Tabelle */
+    .foerder-herkunft-wrap {
+      margin-top: var(--space-6);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 55, 77, 0.08);
+      border: 1px solid rgba(0, 55, 77, 0.1);
+      background: #fff;
+    }
+    .foerder-herkunft-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+    }
+    .foerder-herkunft-table thead th {
+      background: var(--navy);
+      color: #fff;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.875rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .foerder-herkunft-table tbody td {
+      padding: 1.125rem 1.25rem;
+      border-top: 1px solid rgba(0, 55, 77, 0.08);
+      vertical-align: top;
+      line-height: 1.55;
+      color: var(--text-body);
+    }
+    .foerder-herkunft-table tbody td:first-child {
+      width: 22%;
+      background: rgba(149, 193, 31, 0.06);
+      color: var(--green-dark);
+    }
+    .foerder-herkunft-table tbody td:nth-child(2) {
+      width: 38%;
+      color: var(--text-muted);
+    }
+    .foerder-herkunft-deckel td {
+      background: rgba(254, 209, 0, 0.12) !important;
+      color: var(--text-body) !important;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .foerder-herkunft-quellen {
+      padding: 1rem 1.25rem;
+      background: #f8faf5;
+      border-top: 1px solid rgba(0, 55, 77, 0.08);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .foerder-herkunft-quellen strong { color: var(--navy); }
+    .foerder-herkunft-quellen a {
+      color: var(--green-dark);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .foerder-herkunft-quellen a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .foerder-herkunft-table thead { display: none; }
+      .foerder-herkunft-table tbody tr { display: block; border-top: 1px solid rgba(0,55,77,0.08); }
+      .foerder-herkunft-table tbody td { display: block; width: 100% !important; padding: 0.75rem 1rem; border-top: none; }
+      .foerder-herkunft-table tbody td:first-child { background: rgba(149,193,31,0.06); font-weight: 700; }
+      .foerder-herkunft-table tbody td:nth-child(2)::before { content: "Rechtsgrundlage: "; font-weight: 600; color: var(--navy); }
+      .foerder-herkunft-table tbody td:nth-child(3)::before { content: "Wer: "; font-weight: 600; color: var(--navy); }
+    }
+
     .foerder-note {
       text-align: center;
       font-size: 0.8125rem;
@@ -2114,14 +2189,61 @@
           <span class="foerder-amount" style="color: var(--green-dark);">-1.500 €</span>
         </div>
         <div class="foerder-line">
-          <span class="foerder-label">./. Einkommensbonus (20 %)</span>
+          <span class="foerder-label">./. Einkommensbonus (30 %, gedeckelt)</span>
           <span class="foerder-amount" style="color: var(--green-dark);">-1.500 €</span>
         </div>
         <div class="foerder-line total">
           <span class="foerder-label">Ihr Eigenanteil</span>
           <span class="foerder-amount">ab 2.250 €</span>
         </div>
-        <p class="foerder-note">KfW-Programm 458 — Antrag vor Vertragsabschluss. Max. 70 % Förderung, max. 21.000 € pro WE. Stand 2026.</p>
+        <p class="foerder-note">KfW-Programm 458 — Antrag vor Vertragsabschluss. Einzelne Boni-Prozentsätze addieren sich auf 80 %, werden aber auf <strong>maximal 70 % Gesamtförderung</strong> gedeckelt (max. 21.000 € pro Wohneinheit). Stand 2026.</p>
+      </div>
+
+      <!-- 5) Herkunft der Förderung — Rechtsgrundlagen & Voraussetzungen -->
+      <div class="vergleich-sub-header reveal" style="margin-top: var(--space-12);">
+        <h3>Woher kommt die Förderung?</h3>
+        <p>Alle drei Boni stammen aus dem <strong>KfW-Programm 458</strong> (Bundesförderung für effiziente Gebäude — Einzelmaßnahmen, BEG EM). Hier die Herkunft im Detail:</p>
+      </div>
+      <div class="foerder-herkunft-wrap reveal">
+        <table class="foerder-herkunft-table">
+          <thead>
+            <tr>
+              <th>Bonus</th>
+              <th>Rechtsgrundlage</th>
+              <th>Wer bekommt ihn?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Grundförderung<br>30 %</strong></td>
+              <td>KfW-Programm 458 / BEG EM Nr. 5.3 (Wärmenetzanschluss zählt zu förderfähigen Heizungsmaßnahmen).</td>
+              <td><strong>Alle</strong> Eigentümer (Selbstnutzer, Vermieter, WEG). Bedingung: Anschluss an ein Wärmenetz mit ≥ 65 % erneuerbarer Energie — das erfüllt unsere Biogas-Nahwärme.</td>
+            </tr>
+            <tr>
+              <td><strong>Klimageschwindigkeits-<br>bonus 20 %</strong></td>
+              <td>KfW 458, gültig bis <strong>31.12.2028</strong>. Danach degressiv: 17 % ab 2029, 14 % ab 2031, 11 % ab 2033, entfällt ab 2037.</td>
+              <td><strong>Nur selbstnutzende Eigentümer</strong>, die eine <strong>funktionstüchtige fossile Heizung</strong> (Öl, Gas, Kohle, Nachtspeicher) oder eine ≥ 20 Jahre alte Gas-/Biomasseheizung austauschen. Gilt explizit auch für Wärmenetzanschluss.</td>
+            </tr>
+            <tr>
+              <td><strong>Einkommensbonus<br>30 %</strong></td>
+              <td>KfW 458. Maßgeblich: Durchschnitt des zu versteuernden Haushaltseinkommens aus dem 2. und 3. Kalenderjahr vor Antragstellung.</td>
+              <td><strong>Nur Selbstnutzer</strong> mit zu versteuerndem <strong>Haushaltseinkommen ≤ 40.000 €/Jahr</strong>.</td>
+            </tr>
+            <tr class="foerder-herkunft-deckel">
+              <td colspan="3"><strong>⚠️ Deckelung:</strong> Theoretische Summe 30 + 20 + 30 = 80 %. KfW 458 zahlt aber <strong>maximal 70 %</strong> der förderfähigen Kosten — gedeckelt auf 21.000 € pro Wohneinheit. Im Rechenbeispiel oben wirkt sich der Einkommensbonus deshalb nur noch mit 20 Prozentpunkten aus.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="foerder-herkunft-quellen">
+          <strong>Quellen:</strong>
+          <a href="https://www.kfw.de/inlandsfoerderung/Privatpersonen/Bestehende-Immobilie/F%C3%B6rderprodukte/Heizungsf%C3%B6rderung-f%C3%BCr-Privatpersonen-Eigent%C3%BCmer-von-Einfamilienh%C3%A4usern-(458)/" target="_blank" rel="noopener">KfW Merkblatt 458 (offiziell)</a> · 
+          <a href="https://www.bafa.de/DE/Energie/Effiziente_Gebaeude/Sanierung_Wohngebaeude/Anlagen_zur_Waermeerzeugung/anlagen_zur_waermeerzeugung_node.html" target="_blank" rel="noopener">BAFA — BEG EM Anlagen zur Wärmeerzeugung</a> · 
+          <a href="https://energie-beratung-schmidt.de/kfw-forderung-458-heizungsforderung-fur-privatpersonen/" target="_blank" rel="noopener">Energieberatung Schmidt (KfW 458, Stand 10/2026)</a> · 
+          <a href="https://reduco.ai/blog/kfw-458-heizungstausch" target="_blank" rel="noopener">Reduco Ratgeber (03/2026)</a> · 
+          <a href="https://www.energie-experten.org/heizung/heizung-kaufen/kfw-foerderung-heizung" target="_blank" rel="noopener">Energie-Experten (01/2026)</a> · 
+          <a href="https://www.mvv.de/waerme/ratgeber/beg-foerderung-2024-diese-foerdersaetze-gelten-jetzt" target="_blank" rel="noopener">MVV Energie AG (BEG-Übersicht)</a> · 
+          <a href="https://gsw-kamen.de/files/218110-371-0-8ef9/Infoblatt%20F%C3%B6rderm%C3%B6glichkeiten%20W%C3%A4rmenetzanschluss%20EFH+MFH.pdf" target="_blank" rel="noopener">GSW Kamen — Infoblatt Wärmenetzanschluss (PDF)</a>
+        </div>
       </div>
 
       <!-- CTA -->
@@ -2600,32 +2722,8 @@
     </div>
   </footer>
 
-  <!-- ===== KLARO COOKIE CONSENT ===== -->
+  <!-- ===== FORM ERROR STYLES ===== -->
   <style>
-    /* Klaro consent banner — HHB-Brand-Styling */
-    .klaro .cookie-notice {
-      background: var(--navy-dark, #002A3B) !important;
-      font-family: var(--font-body, 'Source Sans 3', sans-serif) !important;
-      border-top: 3px solid var(--green, #95C11F) !important;
-    }
-    .klaro .cookie-notice .cn-body p {
-      color: rgba(255,255,255,0.85) !important;
-      font-size: 0.9375rem !important;
-    }
-    .klaro .cookie-notice .cn-ok .cm-btn-success {
-      background: var(--green, #95C11F) !important;
-      color: var(--navy, #00354E) !important;
-      font-weight: 700 !important;
-    }
-    .klaro .cookie-notice .cn-ok .cm-btn-danger {
-      background: transparent !important;
-      border: 1px solid rgba(255,255,255,0.3) !important;
-      color: rgba(255,255,255,0.75) !important;
-    }
-    .klaro .cookie-modal .cm-header h1 {
-      color: var(--navy, #00354E) !important;
-      font-weight: 900 !important;
-    }
     /* Error message styling for form */
     .form-error {
       display: none;
@@ -2640,75 +2738,6 @@
     }
     .form-error.visible { display: block; }
   </style>
-
-  <script>
-    /* ===== KLARO CONSENT CONFIG ===== */
-    var klaroConfig = {
-      version: 1,
-      elementID: 'klaro',
-      storageMethod: 'localStorage',
-      storageName: 'klaro-waermenetz',
-      htmlTexts: true,
-      cookieExpiresAfterDays: 365,
-      default: false,
-      mustConsent: false,
-      acceptAll: true,
-      hideDeclineAll: false,
-      translations: {
-        de: {
-          consentNotice: {
-            description: 'Wir nutzen Cookies und Dienste, um die Nutzung unserer Website zu analysieren. Sie k\u00F6nnen entscheiden, welche Dienste Sie zulassen m\u00F6chten.',
-            learnMore: 'Einstellungen'
-          },
-          consentModal: {
-            title: 'Datenschutz-Einstellungen',
-            description: 'Hier k\u00F6nnen Sie die Dienste, die auf dieser Website eingesetzt werden, im Detail verwalten.'
-          },
-          acceptAll: 'Alle akzeptieren',
-          acceptSelected: 'Auswahl speichern',
-          decline: 'Nur Notwendige',
-          ok: 'Alle akzeptieren',
-          purposes: {
-            analytics: 'Analyse'
-          }
-        }
-      },
-      lang: 'de',
-      services: [
-        {
-          name: 'google-analytics',
-          title: 'Google Analytics 4',
-          description: 'Erfasst anonymisierte Nutzungsdaten, um die Website zu verbessern.',
-          purposes: ['analytics'],
-          cookies: [
-            [/^_ga/, '/', '.hhb-agrarenergie.de'],
-            [/^_gid/, '/', '.hhb-agrarenergie.de'],
-            [/^_gat/, '/', '.hhb-agrarenergie.de']
-          ],
-          default: false,
-          required: false,
-          optOut: false,
-          onlyOnce: true,
-          callback: function(consent, service) {
-            if (consent) {
-              // GA4 laden
-              var s = document.createElement('script');
-              s.src = 'https://www.googletagmanager.com/gtag/js?id=G-6NPMQN3R2T';
-              s.async = true;
-              document.head.appendChild(s);
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              window.gtag = gtag;
-              gtag('js', new Date());
-              gtag('config', 'G-6NPMQN3R2T', { anonymize_ip: true });
-            }
-          }
-        }
-      ]
-    };
-  </script>
-  <script defer src="https://cdn.kiprotect.com/klaro/v0.7/klaro.js"></script>
-  <div id="klaro"></div>
 
   <script>
     /* ===== SCROLL REVEAL ===== */
@@ -2795,12 +2824,13 @@
         this.style.display = 'none';
         document.getElementById('form-success').classList.add('visible');
 
-        // GA4 Event (nur wenn Consent erteilt)
-        if (typeof gtag === 'function') {
-          gtag('event', 'interest_form_submit', {
-            event_category: 'waermenetz',
-            event_label: data.gebaeudetyp || 'nicht angegeben',
-            plz: data.plz
+        // Plausible Custom Event (cookielos, DSGVO-konform)
+        if (typeof plausible === 'function') {
+          plausible('Interessenbekundung', {
+            props: {
+              gebaeudetyp: data.gebaeudetyp || 'nicht angegeben',
+              plz: data.plz || ''
+            }
           });
         }
       } catch (err) {
@@ -2854,11 +2884,10 @@
         this.style.display = 'none';
         successDiv.classList.add('visible');
 
-        // GA4 Event
-        if (typeof gtag === 'function') {
-          gtag('event', 'newsletter_signup', {
-            event_category: 'waermenetz',
-            event_label: 'newsletter'
+        // Plausible Custom Event (cookielos, DSGVO-konform)
+        if (typeof plausible === 'function') {
+          plausible('Newsletter Signup', {
+            props: { quelle: 'waermenetz' }
           });
         }
       } catch (err) {
