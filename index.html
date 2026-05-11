@@ -21,12 +21,10 @@
   <meta name="twitter:image" content="https://waermenetz.hhb-agrarenergie.de/assets/og-image.png">
   <link rel="canonical" href="https://waermenetz.hhb-agrarenergie.de">
 
-  <!-- Privacy-friendly analytics by Plausible (cookielos, DSGVO-konform, kein Consent-Banner nötig) -->
-  <script async src="https://plausible.io/js/pa-emtOeObvB1u1uqx2ixdWR.js"></script>
-  <script>
-    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-    plausible.init();
-  </script>
+  <!-- Plausible Analytics (cookielos, DSGVO-konform, kein Consent-Banner nötig) -->
+  <!-- Gemeinsame Property mit hhb-agrarenergie.de für vollen Funnel -->
+  <script defer data-domain="hhb-agrarenergie.de" src="https://plausible.io/js/script.outbound-links.file-downloads.404.tagged-events.js"></script>
+  <script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>
 
   <!-- Schema.org Structured Data (LocalBusiness) -->
   <script type="application/ld+json">
@@ -2945,6 +2943,36 @@
         // URL aufr\u00e4umen (Parameter entfernen)
         window.history.replaceState({}, '', window.location.pathname);
       }
+    })();
+
+    /* ===== PLAUSIBLE: Phone / Email / CTA Tracking ===== */
+    (function() {
+      function track(event, props) {
+        try {
+          if (typeof window.plausible === 'function') {
+            window.plausible(event, props ? { props: props } : undefined);
+          }
+        } catch (e) {}
+      }
+      // Telefon-Klicks
+      document.querySelectorAll('a[href^="tel:"]').forEach(function(el) {
+        el.addEventListener('click', function() {
+          track('Phone Click', { quelle: 'waermenetz-landing' });
+        });
+      });
+      // E-Mail-Klicks
+      document.querySelectorAll('a[href^="mailto:"]').forEach(function(el) {
+        el.addEventListener('click', function() {
+          track('Email Click', { quelle: 'waermenetz-landing' });
+        });
+      });
+      // CTA "Interesse bekunden" / Hero-CTAs (interne Anchor-Sprung zum Formular)
+      document.querySelectorAll('a[href="#interesse"], a[href="#kontakt"]').forEach(function(el) {
+        el.addEventListener('click', function() {
+          var label = (el.textContent || '').trim().substring(0, 50);
+          track('CTA Interesse', { quelle: 'waermenetz-landing', label: label });
+        });
+      });
     })();
   </script>
 
