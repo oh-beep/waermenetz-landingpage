@@ -8,13 +8,14 @@
  * 
  * EINRICHTUNG:
  * 1. Code in Code.gs einfügen
- * 2. Zeile 17: Brevo API Key eintragen
+ * 2. Script Properties: BREVO_API_KEY und BREVO_WEBHOOK_TOKEN setzen
  * 3. Bereitstellen → Bereitstellungen verwalten → Neue Version → Bereitstellen
  */
 
 // ===== KONFIGURATION =====
 const SPREADSHEET_ID = '1-BeYoeylLWFJCeSEZdnHkcrOa5MABCL8HCheUK8HRlY';
-const BREVO_API_KEY = '';  // <-- Brevo API Key hier eintragen (xkeysib-...)
+const BREVO_API_KEY = PropertiesService.getScriptProperties().getProperty('BREVO_API_KEY') || '';
+const BREVO_WEBHOOK_TOKEN = PropertiesService.getScriptProperties().getProperty('BREVO_WEBHOOK_TOKEN') || '';
 const NOTIFICATION_EMAIL = 'oh@hofholtermann.de';
 
 // Brevo-Listen pro Marke
@@ -55,7 +56,7 @@ function doPost(e) {
     
     // Brevo Webhook: Kontakt zu Liste hinzugefügt → Willkommens-Newsletter senden
     if (data.event === 'listAddition' || (e.parameter && e.parameter.action === 'welcome')) {
-      return handleBrevoWebhook(data);
+      return handleBrevoWebhook(data, data.webhookToken);
     }
     
     if (data.type === 'newsletter') {
@@ -75,7 +76,11 @@ function doPost(e) {
  * Wird aufgerufen, wenn ein Kontakt über DOI bestätigt und zur Liste hinzugefügt wird.
  * Sendet automatisch den Willkommens-Newsletter.
  */
-function handleBrevoWebhook(data) {
+function handleBrevoWebhook(data, token) {
+  if (!BREVO_WEBHOOK_TOKEN || typeof token !== 'string' || token !== BREVO_WEBHOOK_TOKEN) {
+    return jsonResult({ success: false, error: 'unauthorized_webhook' });
+  }
+  if (!validEmail(data.email)) return jsonResult({ success: false, error: 'invalid_email' });
   try {
     var email = '';
     var firstName = '';
@@ -97,7 +102,7 @@ function handleBrevoWebhook(data) {
     if (email) {
       // Kurze Verzögerung, damit der Kontakt in Brevo vollständig angelegt ist
       Utilities.sleep(3000);
-      sendWelcomeEmail(email, firstName);
+      if (!sendWelcomeEmail(email, firstName)) return jsonResult({ success: false, error: 'welcome_unavailable' });
       
       console.log('Willkommens-Newsletter gesendet an: ' + email);
     }
@@ -116,16 +121,9 @@ function handleBrevoWebhook(data) {
 function doGet(e) {
   var params = e.parameter || {};
   
-  // Webhook: Willkommens-Newsletter nach DOI-Bestätigung senden
-  if (params.action === 'welcome' && params.email) {
-    sendWelcomeEmail(params.email, params.name || '');
-    // Redirect zur Landingpage mit Bestätigungsmeldung
-    return HtmlService.createHtmlOutput(
-      '<html><head><meta http-equiv="refresh" content="0;url=https://waermenetz.hhb-agrarenergie.de/?confirmed=1"></head>' +
-      '<body>Weiterleitung...</body></html>'
-    );
-  }
-  
+  // GET ist lesend; Versand ist ausschließlich im authentifizierten POST zulässig.
+  if (params.action === 'welcome') return jsonResult({ success: false, error: 'post_required' });
+
   return ContentService
     .createTextOutput(JSON.stringify({ status: 'ok', message: 'Hof Holtermann API aktiv', marken: Object.keys(BREVO_LISTS) }))
     .setMimeType(ContentService.MimeType.JSON);
@@ -134,6 +132,7 @@ function doGet(e) {
 // ===== KONTAKTFORMULAR =====
 
 function handleContactForm(data) {
+  if (!validEmail(data.email)) return jsonResult({ success: false, error: 'invalid_contact' });
   var marke = data.marke || 'waermenetz';
   var sheetName = SHEET_NAMES[marke] || 'Sonstige';
   var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -149,7 +148,7 @@ function handleContactForm(data) {
     data.telefon || '', data.strasse || '', data.plz || '', data.ort || '',
     data.gebaeudetyp || data.typ || '', data.nachricht || '',
     data.newsletter ? 'Ja' : 'Nein', marke
-  ]);
+  ].map(sheetText));
   // Wenn Newsletter gewünscht → DOI starten
   if (data.newsletter && BREVO_API_KEY) {
     startDoubleOptIn(data.email, data.vorname, data.nachname, marke);
@@ -163,7 +162,9 @@ function handleContactForm(data) {
 // ===== NEWSLETTER =====
 
 function handleNewsletter(data) {
+  if (!validEmail(data.email)) return jsonResult({ success: false, error: 'invalid_email' });
   var marke = data.marke || 'waermenetz';
+  if (!startDoubleOptIn(data.email, data.vorname || '', data.nachname || '', marke)) return jsonResult({ success: false, error: 'doi_unavailable' });
   
   // In Sheet speichern (als Nachweis)
   var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -172,12 +173,8 @@ function handleNewsletter(data) {
     nlSheet = ss.insertSheet('Newsletter');
     nlSheet.appendRow(['Timestamp', 'E-Mail', 'Marke', 'DOI Status']);
   }
-  nlSheet.appendRow([new Date().toISOString(), data.email, marke, 'DOI gesendet']);
+  nlSheet.appendRow([new Date().toISOString(), data.email, marke, 'DOI angefordert'].map(sheetText));
   
-  // DOI starten (Bestätigungsmail senden)
-  if (BREVO_API_KEY) {
-    startDoubleOptIn(data.email, data.vorname || '', data.nachname || '', marke);
-  }
   
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
@@ -194,7 +191,7 @@ function handleNewsletter(data) {
  * 4. Danach wird automatisch der Willkommens-Newsletter gesendet (via Webhook/Automation)
  */
 function startDoubleOptIn(email, firstName, lastName, marke) {
-  if (!BREVO_API_KEY) return;
+  if (!BREVO_API_KEY) return false;
   
   var listId = BREVO_LISTS[marke] || 5;
   
@@ -223,7 +220,7 @@ function startDoubleOptIn(email, firstName, lastName, marke) {
   var responseCode = response.getResponseCode();
   var responseText = response.getContentText();
   
-  console.log('DOI Response (' + responseCode + '): ' + responseText);
+  console.log('DOI Response: ' + responseCode);
   
   // Nach erfolgreicher DOI-Anfrage: Willkommens-Mail wird über Brevo Automation gesendet
   // (Brevo Automation: Trigger = "Kontakt zu Liste 3 hinzugefügt" → Sende Template 3)
@@ -241,12 +238,12 @@ function startDoubleOptIn(email, firstName, lastName, marke) {
  * Um diese Funktion als Webhook zu nutzen:
  * 1. Brevo → Einstellungen → Webhooks → Neuer Webhook
  * 2. Event: "Contact added to list"
- * 3. URL: [Diese Apps Script Web-App URL]?action=welcome&email={email}
+ * 3. POST-JSON mit event, email, list_id und webhookToken aus Script Properties konfigurieren.
  */
 function sendWelcomeEmail(email, firstName) {
-  if (!BREVO_API_KEY) return;
+  if (!BREVO_API_KEY) return false;
   
-  UrlFetchApp.fetch('https://api.brevo.com/v3/smtp/email', {
+  var response = UrlFetchApp.fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: {
       'api-key': BREVO_API_KEY,
@@ -262,6 +259,7 @@ function sendWelcomeEmail(email, firstName) {
     }),
     muteHttpExceptions: true
   });
+  return response.getResponseCode() >= 200 && response.getResponseCode() < 300;
 }
 
 // ===== BENACHRICHTIGUNG =====
@@ -278,10 +276,21 @@ function sendNotification(data, marke) {
       'Adresse: ' + (data.strasse||'') + ', ' + (data.plz||'') + ' ' + (data.ort||'') + '\n' +
       'Typ: ' + (data.gebaeudetyp||data.typ||'-') + '\n' +
       'Nachricht: ' + (data.nachricht||'-') + '\n' +
-      'Newsletter: ' + (data.newsletter ? 'Ja (DOI gesendet)' : 'Nein') + '\n' +
+      'Newsletter: ' + (data.newsletter ? 'Ja (Bestätigung noch zu prüfen)' : 'Nein') + '\n' +
       'Marke: ' + m + '\n\n---\nAlle Kontakte: https://docs.google.com/spreadsheets/d/' + SPREADSHEET_ID;
     MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
   } catch (e) {
     console.log('E-Mail fehlgeschlagen: ' + e.toString());
   }
+}
+
+function jsonResult(value) {
+  return ContentService.createTextOutput(JSON.stringify(value)).setMimeType(ContentService.MimeType.JSON);
+}
+function validEmail(value) {
+  return typeof value === 'string' && value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+function sheetText(value) {
+  var text = String(value == null ? '' : value);
+  return /^[\s]*[=+@-]/.test(text) ? "'" + text : text;
 }
