@@ -17,3 +17,9 @@ jobs:
         with:
           node-version: 24.19.0
       - run: node --test scripts/*.test.mjs
+      - name: Install pinned form service dependencies
+        working-directory: services/waermenetz-doi
+        run: npm ci --ignore-scripts && npm rebuild better-sqlite3 --ignore-scripts=false
+      - name: Test form service with synthetic provider
+        working-directory: services/waermenetz-doi
+        run: npm test

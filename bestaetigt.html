@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>E-Mail-Bestätigung · HHB Wärmenetz</title>
+  <style>
+    @font-face{font-family:Source;src:url(assets/fonts/source-sans-3-latin.woff2) format('woff2');font-display:swap}
+    *{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;background:#f4f5ef;color:#243d2c;font-family:Source,system-ui,sans-serif}
+    main{width:min(100%,640px);padding:clamp(24px,6vw,56px);background:white;border-radius:24px;border:1px solid #dce4d8;box-shadow:0 16px 60px #1f3b2010}
+    .brand{font-weight:700;letter-spacing:.08em;font-size:14px;text-transform:uppercase;color:#4c6a3e}h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:28px 0 16px}p{font-size:19px;line-height:1.6}a{color:inherit;text-underline-offset:4px}.button{display:inline-block;padding:14px 22px;background:#365b34;color:white;border-radius:9px;text-decoration:none;font-weight:700;margin-top:14px}a:focus-visible{outline:3px solid #b07a24;outline-offset:5px}footer{margin-top:36px;display:flex;gap:22px;font-size:15px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">HHB Agrarenergie · Wärmenetz Harsefeld</div>
+    <div role="status" aria-live="polite">
+      <h1 id="title">Bestätigung prüfen</h1>
+      <p id="message">Öffnen Sie bitte den Bestätigungslink aus unserer E-Mail. Diese Seite allein bestätigt keine Anmeldung.</p>
+    </div>
+    <a class="button" href="index.html">Zur Wärmenetz-Seite</a>
+    <footer><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></footer>
+  </main>
+  <script>
+    const messages = {
+      ok: ['Vielen Dank für Ihre Bestätigung', 'Ihre E-Mail-Adresse wurde bestätigt. Ihre Anfrage beziehungsweise Newsletter-Anmeldung ist damit abgeschlossen.'],
+      already: ['Bereits bestätigt', 'Sie haben diesen Link bereits bestätigt. Sie müssen nichts weiter tun.'],
+      expired: ['Dieser Link ist abgelaufen', 'Bestätigungslinks gelten 30 Tage. Bitte füllen Sie das Formular auf der Wärmenetz-Seite erneut aus, um einen neuen Link zu erhalten.'],
+      invalid: ['Dieser Link ist ungültig', 'Bitte öffnen Sie den vollständigen Bestätigungslink aus unserer E-Mail. Falls das nicht funktioniert, fordern Sie über das Formular einen neuen Link an.'],
+      error: ['Bestätigung noch nicht abgeschlossen', 'Die Bestätigung konnte gerade nicht verarbeitet werden. Bitte versuchen Sie den Link aus Ihrer E-Mail später erneut.']
+    };
+    const status = new URLSearchParams(location.search).get('status');
+    if (Object.hasOwn(messages, status)) {
+      document.getElementById('title').textContent = messages[status][0];
+      document.getElementById('message').textContent = messages[status][1];
+    }
+  </script>
+</body>
+</html>
