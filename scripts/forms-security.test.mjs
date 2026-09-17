@@ -43,7 +43,7 @@ test('contact data is stored as text instead of executable sheet formulas',()=>{
   assert.equal(r.rows[0][1],"'=1+1");assert.equal(r.rows[0][9],"'  @SUM(A1)");assert.equal(r.rows[0][4],"'+49123");
 });
 test('static pages and scripts parse; local resources exist; opaque transport does not claim receipt',()=>{
-  for(const file of ['index.html','impressum.html','datenschutz.html']){
+  for(const file of ['index.html','impressum.html','datenschutz.html','bestaetigt.html']){
     const html=readFileSync(file,'utf8');
     for(const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) {if(match[1].trim() && !match[0].includes('application/ld+json')) new Script(match[1]);}
     for(const [,url] of html.matchAll(/(?:src|href)=["']([^"']+)["']/g)){
