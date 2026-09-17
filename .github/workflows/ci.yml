@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 24.19.0
       - run: node --test scripts/*.test.mjs
+      - run: python3 scripts/public-release_test.py
       - name: Install pinned form service dependencies
         working-directory: services/waermenetz-doi
         run: npm ci --ignore-scripts && npm rebuild better-sqlite3 --ignore-scripts=false
