@@ -53,7 +53,7 @@ jobs:
           rsync -avz --delete \
             --exclude '.git' --exclude '.github' \
             --exclude '.gitignore' --exclude 'README.md' \
-            --exclude '*.sh' --exclude '.env' --exclude 'scripts/' --exclude 'google-apps-script.js' \
+            --exclude '*.sh' --exclude '.env' --exclude 'scripts/' --exclude 'google-apps-script.js' --exclude 'services/' \
             -e "ssh -i ~/.ssh/deploy_key" \
             ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/waermenetz.hhb-agrarenergie.de/
 
