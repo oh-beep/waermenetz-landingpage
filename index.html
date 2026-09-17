@@ -2659,7 +2659,7 @@
             <div class="form-success" id="form-success">
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
               <h3>Vielen Dank für Ihr Interesse!</h3>
-              <p>Wir haben Ihre Anfrage erhalten und melden uns innerhalb von 5 Werktagen bei Ihnen.</p>
+              <p>Die Übertragung wurde angestoßen. Der Eingang ist noch nicht bestätigt. Falls Sie innerhalb von 5 Werktagen nichts hören, melden Sie sich bitte telefonisch bei uns.</p>
             </div>
           </div>
         </div>
@@ -2678,7 +2678,7 @@
           <button type="submit" class="btn btn-primary">Anmelden</button>
         </form>
         <div class="newsletter-success" id="newsletter-success">
-          ✓ Fast geschafft! Bitte bestätigen Sie Ihre Anmeldung über den Link in der E-Mail, die wir Ihnen gerade gesendet haben.
+          Anmeldung angefragt. Erst der Bestätigungslink in einer E-Mail schließt sie ab. Kommt keine E-Mail an, ist die Anmeldung noch offen.
         </div>
         <div class="newsletter-error" id="newsletter-error">
           Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns unter 0151 22355404.
@@ -2787,6 +2787,8 @@
     document.getElementById('interest-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      if (!this.reportValidity()) return;
+
       // Honeypot-Check: Wenn das versteckte Feld gefüllt ist, ist es ein Bot
       const honeypot = this.querySelector('#website');
       if (honeypot && honeypot.value) {
@@ -2805,7 +2807,7 @@
       const formData = new FormData(this);
       const data = Object.fromEntries(formData.entries());
       delete data.website; // Honeypot-Feld nicht mitsenden
-      delete data.datenschutz; // Checkbox nicht mitsenden
+      data.datenschutz = this.querySelector('#datenschutz').checked;
       data.timestamp = new Date().toISOString();
 
       try {
@@ -2932,7 +2934,7 @@
           'position:fixed;top:0;left:0;right:0;z-index:9999;background:#95C11F;color:#00354E;' +
           'text-align:center;padding:14px 20px;font-weight:700;font-size:0.9375rem;' +
           'font-family:var(--font-body);box-shadow:0 2px 12px rgba(0,0,0,0.15);');
-        banner.textContent = '\u2713 Anmeldung best\u00e4tigt \u2014 willkommen beim W\u00e4rmenetz-Newsletter!';
+        banner.textContent = 'Bestätigungsseite geöffnet. Vielen Dank für Ihr Interesse am Wärmenetz.';
         document.body.prepend(banner);
         // Banner nach 8 Sekunden ausblenden
         setTimeout(function() {
