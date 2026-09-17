@@ -3,61 +3,101 @@ on:
   workflow_dispatch:
     inputs:
       release_sha:
-        description: Exact 40-character lowercase commit SHA
+        description: Exact 40-character main commit SHA
         required: true
         type: string
       confirm_live:
-        description: Type LIVE-DEPLOY-FREIGEGEBEN to authorize deployment
+        description: Type LIVE-DEPLOY-FREIGEGEBEN
         required: true
         type: string
-
 permissions:
   contents: read
-
+concurrency:
+  group: waermenetz-production
+  cancel-in-progress: false
 jobs:
-  deploy:
-    name: Deploy to Server
+  qualify:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      transport_sha: ${{ steps.package.outputs.transport_sha }}
+      public_sha: ${{ steps.package.outputs.public_sha }}
     steps:
       - name: Validate release gate before checkout
         env:
           RELEASE_SHA: ${{ inputs.release_sha }}
           CONFIRM_LIVE: ${{ inputs.confirm_live }}
+          WORKFLOW_REF: ${{ github.ref }}
+          WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          [[ "$RELEASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "release_sha must be exactly 40 lowercase hex characters" >&2; exit 1; }
-          [[ "$CONFIRM_LIVE" == "LIVE-DEPLOY-FREIGEGEBEN" ]] || { echo "explicit live confirmation required" >&2; exit 1; }
-
+          [[ "$RELEASE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 61
+          [[ "$CONFIRM_LIVE" == "LIVE-DEPLOY-FREIGEGEBEN" ]] || exit 61
+          [[ "$WORKFLOW_REF" == "refs/heads/main" ]] || exit 61
+          [[ "$WORKFLOW_SHA" == "$RELEASE_SHA" ]] || exit 61
       - name: Checkout exact release
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.release_sha }}
-          fetch-depth: 1
-
+          persist-credentials: false
       - name: Verify checked out SHA
         env:
           RELEASE_SHA: ${{ inputs.release_sha }}
+        run: test "$(git rev-parse HEAD)" = "$RELEASE_SHA"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: node --test scripts/*.test.mjs
+      - run: python3 scripts/public-release_test.py
+      - name: Verify form service
+        working-directory: services/waermenetz-doi
+        run: npm ci && npm audit --audit-level=low && npm test
+      - name: Package verified public files and transport
+        id: package
         run: |
           set -euo pipefail
-          [[ "$(git rev-parse HEAD)" == "$RELEASE_SHA" ]] || { echo "checkout SHA mismatch" >&2; exit 1; }
-
-      - name: Setup SSH
+          python3 scripts/package-public.py . public.tar.gz
+          tar -czf transport.tar.gz public.tar.gz deploy/activate-static.py deploy/live-known-hosts
+          echo "public_sha=$(sha256sum public.tar.gz | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+          echo "transport_sha=$(sha256sum transport.tar.gz | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: waermenetz-public-${{ github.sha }}
+          path: transport.tar.gz
+          if-no-files-found: error
+          retention-days: 14
+  deploy:
+    needs: qualify
+    runs-on: [self-hosted, Linux, X64, hof-private-waermenetz]
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: waermenetz-public-${{ github.sha }}
+          path: release
+      - name: Verify and activate through the private network
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          TRANSPORT_SHA: ${{ needs.qualify.outputs.transport_sha }}
+          PUBLIC_SHA: ${{ needs.qualify.outputs.public_sha }}
+          RELEASE_SHA: ${{ inputs.release_sha }}
+          RELEASE_RUN: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy Files
-        run: |
-          rsync -avz --delete \
-            --exclude '.git' --exclude '.github' \
-            --exclude '.gitignore' --exclude 'README.md' \
-            --exclude '*.sh' --exclude '.env' --exclude 'scripts/' --exclude 'google-apps-script.js' --exclude 'services/' \
-            -e "ssh -i ~/.ssh/deploy_key" \
-            ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/waermenetz.hhb-agrarenergie.de/
-
-      - name: Verify
-        run: |
-          ssh -i ~/.ssh/deploy_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-            'sudo -n /usr/local/sbin/kz-nginx-verify-reload && echo "Deploy OK"'
+          set -euo pipefail
+          cd release
+          [[ "$(sha256sum transport.tar.gz | cut -d' ' -f1)" == "$TRANSPORT_SHA" ]]
+          tar -xzf transport.tar.gz
+          umask 077
+          key=$(mktemp "$RUNNER_TEMP/waermenetz-key.XXXXXX")
+          trap 'rm -f "$key"' EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$key"
+          opts=(-i "$key" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$PWD/deploy/live-known-hosts")
+          target=deploy@100.109.3.94
+          incoming="/home/deploy/.local/state/waermenetz-incoming/$RELEASE_RUN"
+          ssh "${opts[@]}" "$target" "umask 077; mkdir -p '$incoming'"
+          scp "${opts[@]}" public.tar.gz "$target:$incoming/public.tar.gz"
+          ssh "${opts[@]}" "$target" "python3 - '$RELEASE_SHA' '$PUBLIC_SHA' '$RELEASE_RUN'" < deploy/activate-static.py
+      - name: Clear downloaded transport
+        if: always()
+        run: rm -rf -- release
