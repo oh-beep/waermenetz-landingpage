@@ -15,6 +15,7 @@ import urllib.request
 PUBLIC = ('index.html', 'impressum.html', 'datenschutz.html', 'bestaetigt.html', 'assets')
 BASE = Path('/var/www/waermenetz.hhb-agrarenergie.de')
 STATE = Path('/home/deploy/.local/state/waermenetz-releases')
+INCOMING = Path('/home/deploy/.local/state/waermenetz-incoming')
 
 def validate_members(members):
     total = 0
@@ -31,11 +32,14 @@ def validate_members(members):
         raise ValueError('archive_size')
     if not all(any(m.name == name for m in members) for name in PUBLIC):
         raise ValueError('archive_incomplete')
+    for m in members:
+        if m.name in PUBLIC and (m.isdir() != (m.name == 'assets')):
+            raise ValueError('archive_entry_type')
 
 def main(sha, archive_hash, run_id):
     if not re.fullmatch('[0-9a-f]{40}', sha) or not re.fullmatch('[0-9a-f]{64}', archive_hash) or not re.fullmatch('[0-9]+-[0-9]+', run_id):
         raise ValueError('release_identity')
-    incoming = Path('/home/deploy/.local/state/waermenetz-incoming') / run_id / 'public.tar.gz'
+    incoming = INCOMING / run_id / 'public.tar.gz'
     if incoming.is_symlink() or hashlib.sha256(incoming.read_bytes()).hexdigest() != archive_hash:
         raise ValueError('archive_digest')
     if BASE.is_symlink() or not BASE.is_dir():
@@ -50,7 +54,16 @@ def main(sha, archive_hash, run_id):
         backup = work / 'previous'; backup.mkdir(mode=0o700)
         with tarfile.open(incoming) as archive:
             validate_members(archive.getmembers())
-            archive.extractall(unpack, filter='data')
+            # The allowlist above rejects links, special files and every escape.
+            # Explicit extraction also supports the host's Python 3.10 runtime.
+            for member in archive.getmembers():
+                destination = unpack / member.name
+                if member.isdir():
+                    destination.mkdir(parents=True, exist_ok=True)
+                else:
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    with archive.extractfile(member) as source, open(destination, 'xb') as target:
+                        shutil.copyfileobj(source, target)
         for p in [unpack, *unpack.rglob('*')]:
             os.chmod(p, 0o755 if p.is_dir() else 0o644)
         expected = {name: hashlib.sha256((unpack / name).read_bytes()).hexdigest() for name in PUBLIC if name != 'assets'}
