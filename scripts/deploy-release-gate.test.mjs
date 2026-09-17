@@ -19,3 +19,8 @@ test('actual gate shell rejects malformed SHA and missing or altered approval',(
     assert.equal(r.status===0,pass,JSON.stringify([release,approval]));
   }
 });
+
+test('deployment uses the installed least-privilege nginx verification helper',()=>{
+  assert.match(workflow,/sudo -n \/usr\/local\/sbin\/kz-nginx-verify-reload/);
+  assert.doesNotMatch(workflow,/sudo (?:nginx|systemctl)/);
+});
